@@ -1,5 +1,5 @@
 server:
-  port: 8080
+  port: 8088
 
 eureka:
   client:
@@ -17,3 +17,11 @@ spring:
           uri: lb://caracol-msvc-tienda
           predicates:
             - Path=/api/v1/tienda/**
+        - id: caracol-msvc-mistral
+          uri: lb://caracol-msvc-mistral
+          predicates:
+            - Path=/api/v1/mistral/**
+        - id: caracol-msvc-zunpr
+          uri: lb://caracol-msvc-zunpr
+          predicates:
+            - Path=/api/v1/zunpr/**

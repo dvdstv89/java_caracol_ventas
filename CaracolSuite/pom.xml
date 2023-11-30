@@ -19,6 +19,8 @@
         <module>microservice-eureka</module>
         <module>microservice-config</module>
         <module>caracol-microservice-tienda</module>
+        <module>caracol-microservice-mistral</module>
+        <module>caracol-microservice-zunpr</module>
     </modules>
 
     <name>CaracolSuite</name>
@@ -55,6 +57,11 @@
             <artifactId>spring-boot-starter-test</artifactId>
             <version>3.2.0</version>
             <scope>test</scope>
+        </dependency>
+        <dependency>
+            <groupId>org.modelmapper</groupId>
+            <artifactId>modelmapper</artifactId>
+            <version>3.2.0</version>
         </dependency>
     </dependencies>
     <build>

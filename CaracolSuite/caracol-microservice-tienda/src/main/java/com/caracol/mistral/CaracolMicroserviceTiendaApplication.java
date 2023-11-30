@@ -1,4 +1,4 @@
-package com.caracol.tienda;
+package com.caracol.mistral;
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
