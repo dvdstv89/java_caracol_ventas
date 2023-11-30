@@ -1,0 +1,5 @@
+spring:
+  application:
+    name: caracol-msvc-mistral
+  config:
+    import: optional:configserver:http://localhost:8888
