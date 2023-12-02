@@ -8,12 +8,12 @@
         <sourceTestOutputDir name="target/generated-test-sources/test-annotations" />
         <outputRelativeToContentRoot value="true" />
         <module name="microservice-gateway" />
-        <module name="caracol-microservice-zunpr" />
         <module name="microservice-config" />
-        <module name="caracol-microservice-mistral" />
+        <module name="system-microservice-zunpr" />
         <module name="caracol-microservice-tienda" />
         <module name="microservice-eureka" />
         <module name="caracol-microservice-organizacion-empresarial" />
+        <module name="system-microservice-mistral" />
       </profile>
     </annotationProcessing>
     <bytecodeTargetLevel>
@@ -23,13 +23,13 @@
   <component name="JavacSettings">
     <option name="ADDITIONAL_OPTIONS_OVERRIDE">
       <module name="caracol-microservice-empresarial" options="-parameters" />
-      <module name="caracol-microservice-mistral" options="-parameters" />
       <module name="caracol-microservice-organizacion-empresarial" options="-parameters" />
       <module name="caracol-microservice-tienda" options="-parameters" />
-      <module name="caracol-microservice-zunpr" options="-parameters" />
       <module name="microservice-config" options="-parameters" />
       <module name="microservice-eureka" options="-parameters" />
       <module name="microservice-gateway" options="-parameters" />
+      <module name="system-microservice-mistral" options="-parameters" />
+      <module name="system-microservice-zunpr" options="-parameters" />
     </option>
   </component>
 </project>

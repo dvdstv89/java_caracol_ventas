@@ -9,7 +9,7 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 
-@FeignClient(name = "caracol-msvc-mistral")
+@FeignClient(name = "system-msvc-mistral")
 public interface IMistralClient {
     @PostMapping("/api/v1/mistral/cajas-activas-centro-gestion/{centroGestion}")
     CajasActivasDto getCajasActivasCentroGestion(@PathVariable String centroGestion);
