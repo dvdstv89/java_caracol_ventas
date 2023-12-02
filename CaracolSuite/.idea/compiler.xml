@@ -9,16 +9,22 @@
         <outputRelativeToContentRoot value="true" />
         <module name="microservice-gateway" />
         <module name="caracol-microservice-zunpr" />
-        <module name="caracol-microservice-tienda" />
-        <module name="microservice-eureka" />
         <module name="microservice-config" />
         <module name="caracol-microservice-mistral" />
+        <module name="caracol-microservice-tienda" />
+        <module name="microservice-eureka" />
+        <module name="caracol-microservice-organizacion-empresarial" />
       </profile>
     </annotationProcessing>
+    <bytecodeTargetLevel>
+      <module name="caracol-microservice-empresarial" target="21" />
+    </bytecodeTargetLevel>
   </component>
   <component name="JavacSettings">
     <option name="ADDITIONAL_OPTIONS_OVERRIDE">
+      <module name="caracol-microservice-empresarial" options="-parameters" />
       <module name="caracol-microservice-mistral" options="-parameters" />
+      <module name="caracol-microservice-organizacion-empresarial" options="-parameters" />
       <module name="caracol-microservice-tienda" options="-parameters" />
       <module name="caracol-microservice-zunpr" options="-parameters" />
       <module name="microservice-config" options="-parameters" />

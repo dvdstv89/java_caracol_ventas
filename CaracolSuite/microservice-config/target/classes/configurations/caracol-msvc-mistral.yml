@@ -5,12 +5,9 @@ eureka:
   client:
     serviceUrl:
       defaultZone: http://localhost:8761/eureka
-
-#Usare SPRING DATA JDBC en vez de utilizar JPA porque mistral puede ser muy complejo con las consultas y no es mi negocio
-
-spring:
-  datasource:
-    driverClassName: com.microsoft.sqlserver.jdbc.SQLServerDriver
-    url: jdbc:sqlserver://localhost:1433;trustServerCertificate=true;databaseName=MISTRAL_HLIBRE
-    username: sa
-    password: Destevezd.89
+logging:
+  level:
+    org:
+      hibernate:
+        SQL=debug:
+      springframework: DEBUG

@@ -25,7 +25,7 @@ public class ZunprController {
     }
 
     @GetMapping("empleados-activos")
-    public ResponseEntity<?> findEmpleadosActivos() {
+    public ResponseEntity<?> getEmpleadosActivos() {
         return ResponseEntity.ok(service.getEmpleadosActivos());
     }
 }

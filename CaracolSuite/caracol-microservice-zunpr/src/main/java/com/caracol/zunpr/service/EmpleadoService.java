@@ -1,6 +1,6 @@
 package com.caracol.zunpr.service;
 
-import com.caracol.zunpr.dtos.EmpleadoDTO;
+import com.caracol.zunpr.dtos.EmpleadoDto;
 import com.caracol.zunpr.model.Empleado;
 import com.caracol.zunpr.repository.IEmpleadoRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -22,10 +22,10 @@ public class EmpleadoService implements IEmpleadoService {
     }
 
     @Override
-    public List<EmpleadoDTO> getEmpleadosActivos() {
+    public List<EmpleadoDto> getEmpleadosActivos() {
         List<Empleado> empleados = repository.getEmpleadosActivos();
-        List<EmpleadoDTO> empleadoDTOList = empleados.stream()
-                .map(e -> modelMapper.map(e, EmpleadoDTO.class))
+        List<EmpleadoDto> empleadoDTOList = empleados.stream()
+                .map(e -> modelMapper.map(e, EmpleadoDto.class))
                 .collect(Collectors.toList());
         return  empleadoDTOList;
     }

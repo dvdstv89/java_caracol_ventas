@@ -1,9 +1,8 @@
 package com.caracol.zunpr.repository;
 
-import com.caracol.zunpr.mapper.EmpleadoMapper;
+import com.caracol.zunpr.configs.mapper.EmpleadoMapper;
 import com.caracol.zunpr.model.Empleado;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.jdbc.core.BeanPropertyRowMapper;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.stereotype.Repository;
 

@@ -13,15 +13,19 @@ spring:
         locator:
           enable: true
       routes:
-        - id: caracol-msvc-tienda
+        - id: tienda
           uri: lb://caracol-msvc-tienda
           predicates:
             - Path=/api/v1/tienda/**
-        - id: caracol-msvc-mistral
+        - id: mistral
           uri: lb://caracol-msvc-mistral
           predicates:
             - Path=/api/v1/mistral/**
-        - id: caracol-msvc-zunpr
+        - id: zunpr
           uri: lb://caracol-msvc-zunpr
           predicates:
             - Path=/api/v1/zunpr/**
+        - id: organizacion-empresarial
+          uri: lb://caracol-msvc-organizacion-empresarial
+          predicates:
+            - Path=/api/v1/centro-gestion/**

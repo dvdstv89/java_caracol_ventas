@@ -19,6 +19,7 @@
         <module>microservice-eureka</module>
         <module>microservice-config</module>
         <module>caracol-microservice-tienda</module>
+        <module>caracol-microservice-organizacion-empresarial</module>
         <module>caracol-microservice-mistral</module>
         <module>caracol-microservice-zunpr</module>
     </modules>
