@@ -1,0 +1,9 @@
+com\caracol\tienda\CaracolMicroserviceTiendaApplication.class
+com\caracol\tienda\service\ITiendaService.class
+com\caracol\tienda\client\IMistralClient.class
+com\caracol\tienda\mapper\MappingConfig.class
+com\caracol\tienda\controller\TiendaController.class
+com\caracol\tienda\service\TiendaService.class
+com\caracol\tienda\http\request\CajasActivasResponse.class
+com\caracol\tienda\http\response\CajasActivasByCodeCentroGestionResponse.class
+com\caracol\tienda\http\request\CajaDto.class

@@ -8,6 +8,7 @@
         <sourceTestOutputDir name="target/generated-test-sources/test-annotations" />
         <outputRelativeToContentRoot value="true" />
         <module name="microservice-gateway" />
+        <module name="library-steved-cinad" />
         <module name="microservice-config" />
         <module name="system-microservice-zunpr" />
         <module name="caracol-microservice-tienda" />
@@ -18,6 +19,8 @@
     </annotationProcessing>
     <bytecodeTargetLevel>
       <module name="caracol-microservice-empresarial" target="21" />
+      <module name="CaracolSuite" target="21" />
+      <module name="caracolsuite" target="21" />
     </bytecodeTargetLevel>
   </component>
   <component name="JavacSettings">
@@ -25,6 +28,7 @@
       <module name="caracol-microservice-empresarial" options="-parameters" />
       <module name="caracol-microservice-organizacion-empresarial" options="-parameters" />
       <module name="caracol-microservice-tienda" options="-parameters" />
+      <module name="library-steved-cinad" options="-parameters" />
       <module name="microservice-config" options="-parameters" />
       <module name="microservice-eureka" options="-parameters" />
       <module name="microservice-gateway" options="-parameters" />

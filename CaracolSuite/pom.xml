@@ -10,8 +10,8 @@
         <version>3.1.6</version>
     </parent>
 
-    <groupId>org.example</groupId>
-    <artifactId>CaracolSuite</artifactId>
+    <artifactId>pvc-caracol-suite</artifactId>
+    <groupId>system.partes.caracol</groupId>
     <version>1.0-SNAPSHOT</version>
 
     <modules>
@@ -22,6 +22,7 @@
         <module>caracol-microservice-organizacion-empresarial</module>
         <module>system-microservice-mistral</module>
         <module>system-microservice-zunpr</module>
+        <module>library-steved-cinad</module>
     </modules>
 
     <name>CaracolSuite</name>
