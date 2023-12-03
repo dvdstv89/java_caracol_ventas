@@ -8,6 +8,7 @@ import lombok.Data;
 @Builder
 public class Caja {
     private String id;
+    private String codigoRed;
     private String centroCosto;
     private String numeroCaja;
     private String descripcion;

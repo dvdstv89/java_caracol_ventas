@@ -1,7 +1,7 @@
 package com.system.mistral.service;
 
 import com.system.mistral.dtos.CajaDto;
-import com.system.mistral.http.output.CajasActivasDto;
+import com.system.mistral.http.output.CajasActivasResponse;
 import com.system.mistral.model.Caja;
 import com.system.mistral.repository.ICajaRepository;
 import org.modelmapper.ModelMapper;
@@ -29,14 +29,15 @@ public class CajaService implements ICajaService {
     }
 
     @Override
-    public CajasActivasDto getCajasActivasCentroGestion(String centroGestion) {
+    public  CajasActivasResponse getCajasActivasCentroGestion(String centroGestion) {
         List<Caja> cajas = repository.getCajasActivas(centroGestion);
-        CajasActivasDto cajasActivasDto = new CajasActivasDto();
-        cajasActivasDto.setCajas(
-                cajas.stream()
+        CajasActivasResponse response = CajasActivasResponse.builder()
+                .cajas(
+                        cajas.stream()
                         .map(c -> modelMapper.map(c, CajaDto.class))
                         .collect(Collectors.toList())
-        );
-        return cajasActivasDto;
+                )
+                .build();
+        return response;
     }
 }

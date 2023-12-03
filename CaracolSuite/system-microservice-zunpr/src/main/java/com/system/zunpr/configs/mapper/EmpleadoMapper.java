@@ -24,7 +24,7 @@ public class EmpleadoMapper implements RowMapper<Empleado> {
                 .fechaNacimiento(rs.getDate("fechaNacimiento"))
                 .unidadOrganizacional(rs.getString("unidadOrganizacional"))
                 .salario(rs.getFloat("salario"))
-                .grupoSalarial(rs.getString("grupoSalarial"))//todo quitarle el espacio final
+                .grupoSalarial(rs.getString("grupoSalarial"))
                 .cargo(rs.getString("cargo"))
                 .direccion(
                         Direccion.builder()

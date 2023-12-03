@@ -19,11 +19,11 @@ spring:
           predicates:
             - Path=/api/v1/tienda/**
         - id: mistral
-          uri: lb://caracol-msvc-mistral
+          uri: lb://system-msvc-mistral
           predicates:
             - Path=/api/v1/mistral/**
         - id: zunpr
-          uri: lb://caracol-msvc-zunpr
+          uri: lb://system-msvc-zunpr
           predicates:
             - Path=/api/v1/zunpr/**
         - id: organizacion-empresarial

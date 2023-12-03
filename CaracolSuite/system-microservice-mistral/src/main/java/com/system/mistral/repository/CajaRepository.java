@@ -1,8 +1,8 @@
 package com.system.mistral.repository;
 
-import com.system.mistral.configs.mapper.CajaMapper;
+import com.system.mistral.mapper.CajaMapper;
 import com.system.mistral.model.Caja;
-import com.system.mistral.service.IDataBaseInfoService;
+import com.system.mistral.service.IJdbcTemplateService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
@@ -12,7 +12,7 @@ import java.util.List;
 public class CajaRepository extends BaseRepository implements ICajaRepository {
 
     @Autowired
-    public CajaRepository(IDataBaseInfoService dataBaseInfoService) {
+    public CajaRepository(IJdbcTemplateService dataBaseInfoService) {
         super(dataBaseInfoService);
     }
 

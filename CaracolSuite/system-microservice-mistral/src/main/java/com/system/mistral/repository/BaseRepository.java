@@ -1,30 +1,29 @@
 package com.system.mistral.repository;
 
-import com.system.mistral.model.DataBaseInfo;
-import com.system.mistral.service.IDataBaseInfoService;
-import org.springframework.boot.jdbc.DataSourceBuilder;
+import com.system.mistral.service.IJdbcTemplateService;
 import org.springframework.jdbc.core.JdbcTemplate;
 
-import javax.sql.DataSource;
-
 public abstract class BaseRepository {
-    private final IDataBaseInfoService databaseConfigProvider;
+    private final IJdbcTemplateService jdbcTemplateService;
 
-    protected BaseRepository(IDataBaseInfoService databaseConfigProvider) {
-        this.databaseConfigProvider = databaseConfigProvider;
+    protected BaseRepository(IJdbcTemplateService databaseConfigProvider) {
+        this.jdbcTemplateService = databaseConfigProvider;
     }
 
     protected JdbcTemplate createJdbcTemplate(String centroGestion) {
-        DataBaseInfo dataBaseInfo = databaseConfigProvider.getDatabaseInfo(centroGestion);
-        String databaseUrl = String.format("jdbc:sqlserver://%s:%d;databaseName=%s;trustServerCertificate=true",
-                dataBaseInfo.getHost(), dataBaseInfo.getPort(), dataBaseInfo.getName());
+        return jdbcTemplateService.getJdbcTemplate(centroGestion);
+    }
 
-        DataSource dataSource = DataSourceBuilder.create()
-                .driverClassName("com.microsoft.sqlserver.jdbc.SQLServerDriver")
-                .url(databaseUrl)
-                .username(dataBaseInfo.getUsername())
-                .password(dataBaseInfo.getPassword())
-                .build();
-        return new JdbcTemplate(dataSource);
+    protected String buildQueryWithParameters(String baseQuery, Object[] parameters) {
+        String queryWithParameters = baseQuery;
+
+        for (Object parameter : parameters) {
+            if (parameter instanceof String) {
+                queryWithParameters = queryWithParameters.replaceFirst("\\?", "'" + parameter + "'");
+            } else {
+                queryWithParameters = queryWithParameters.replaceFirst("\\?", parameter.toString());
+            }
+        }
+        return queryWithParameters;
     }
 }

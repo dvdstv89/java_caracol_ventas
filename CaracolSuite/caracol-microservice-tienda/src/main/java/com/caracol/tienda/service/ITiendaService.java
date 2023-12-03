@@ -1,7 +1,9 @@
 package com.caracol.tienda.service;
 
-import com.caracol.tienda.http.request.CajasActivasDto;
+import com.caracol.tienda.http.request.CajasActivasResponse;
+
+import java.util.List;
 
 public interface ITiendaService {
-    public CajasActivasDto findCajasActivasByCodeCentroGestion(String code);
+     CajasActivasResponse findCajasActivasByCodeCentroGestion(String code);
 }
