@@ -20,9 +20,14 @@
         <module>microservice-config</module>
         <module>caracol-microservice-tienda</module>
         <module>caracol-microservice-organizacion-empresarial</module>
-        <module>system-microservice-mistral</module>
         <module>system-microservice-zunpr</module>
+        <module>system-microservice-mistral</module>
         <module>library-steved-cinad</module>
+        <module>caracol-microservice-rrhh</module>
+        <module>caracol-microservice-energetico</module>
+        <module>caracol-microservice-partes</module>
+        <module>caracol-microservice-planes</module>
+        <module>caracol-microservice-reportes</module>
     </modules>
 
     <name>CaracolSuite</name>

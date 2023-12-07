@@ -3,11 +3,14 @@ package com.system.mistral.controller;
 import com.system.mistral.http.input.CintaAuditoraRequest;
 import com.system.mistral.http.output.CajasActivasResponse;
 import com.system.mistral.http.output.CintaAuditoraResponse;
+import com.system.mistral.http.output.FicheroCintaAuditoraResponse;
 import com.system.mistral.service.ICajaService;
 import com.system.mistral.service.ICintaAuditoraService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+
+import java.io.IOException;
 
 @RestController
 @RequestMapping("/api/v1/mistral")
@@ -37,7 +40,8 @@ public class MistralController {
     }
 
     @PostMapping("cintas-auditoras")
-    public ResponseEntity<CintaAuditoraResponse> getCintasAuditoras(@RequestBody CintaAuditoraRequest cintaAuditoraRequest) {
-        return ResponseEntity.ok(cintaAuditoraService.getCintaAuditora(cintaAuditoraRequest));
+    public ResponseEntity<FicheroCintaAuditoraResponse> getCintasAuditoras(@RequestBody CintaAuditoraRequest cintaAuditoraRequest) throws IOException {
+        CintaAuditoraResponse cintaAuditoraResponse = cintaAuditoraService.getCintaAuditora(cintaAuditoraRequest);
+        return ResponseEntity.ok(cintaAuditoraService.procesarCintasAuditoras(cintaAuditoraResponse.getCintaAuditora()));
     }
 }

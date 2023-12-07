@@ -1,5 +1,5 @@
 server:
-  port: 9002
+  port: 9007
 
 eureka:
   client:
@@ -9,7 +9,7 @@ eureka:
 spring:
   datasource:
     driverClassName: com.microsoft.sqlserver.jdbc.SQLServerDriver
-    url: jdbc:sqlserver://localhost:1433;trustServerCertificate=true;databaseName=API_VEDADO
+    url: jdbc:sqlserver://localhost:1433;trustServerCertificate=true;databaseName=MCSV_TIENDA
     username: sa
     password: Destevezd.89
   jpa:
@@ -17,3 +17,5 @@ spring:
     hibernate:
       dialect: org.hibernate.dialect.SQLServer2022Dialect
       ddl-auto: create-drop
+  liquibase:
+    change-log: classpath:db.changelog.xml
