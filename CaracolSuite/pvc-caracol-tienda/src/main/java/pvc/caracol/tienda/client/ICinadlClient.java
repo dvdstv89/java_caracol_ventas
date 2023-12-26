@@ -2,12 +2,13 @@ package pvc.caracol.tienda.client;
 
 import org.springframework.cloud.openfeign.FeignClient;
 import org.springframework.web.bind.annotation.PostMapping;
-import pvc.caracol.common.reponse.ApiResponse;
+import pvc.caracol.tienda.http.CintaAuditoraDto;
+import pvc.caracol.tienda.http.input.CintaAuditoraProcesadaDto;
 
 import java.io.IOException;
 
 @FeignClient(name = "pvc-caracol-cinad")
 public interface ICinadlClient {
     @PostMapping("/api/v1/cinad/analizar-cinta")
-    ApiResponse analizarCintaAuditora(byte[] fichero) throws IOException;
+    CintaAuditoraProcesadaDto analizarCintaAuditora(CintaAuditoraDto cintaAuditoraDto) throws IOException;
 }

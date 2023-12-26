@@ -9,7 +9,7 @@ import pvc.caracol.common.exceptions.NotFoundException;
 import pvc.caracol.common.messages.MessageText;
 import pvc.caracol.common.reponse.ApiResponse;
 import pvc.caracol.mistral.dtos.CajaDto;
-import pvc.caracol.mistral.http.input.CintaAuditoraRequest;
+import pvc.caracol.mistral.http.input.CajaRegistradoraDto;
 import pvc.caracol.mistral.http.output.CintaAuditoraDto;
 import pvc.caracol.mistral.service.interfaces.ICajaService;
 import pvc.caracol.mistral.service.interfaces.ICintaAuditoraService;
@@ -29,11 +29,6 @@ public class MistralController extends BaseController {
         this.cintaAuditoraService = cintaAuditoraService;
     }
 
-    @GetMapping
-    public ResponseEntity<?> test() {
-        return ResponseEntity.ok("Hola mundo mistral");
-    }
-
     @GetMapping("cajas-activas")
     public ResponseEntity<?> getCajasActivas() throws NotFoundException {
         return ResponseEntity.ok(cajaService.getCajasActivas());
@@ -46,8 +41,8 @@ public class MistralController extends BaseController {
     }
 
     @PostMapping("cintas-auditoras")
-    public ResponseEntity<List<CintaAuditoraDto>> getCintasAuditoras(@RequestBody CintaAuditoraRequest cintaAuditoraRequest) throws NotFoundException {
-        ApiResponse response = cintaAuditoraService.getCintaAuditora(cintaAuditoraRequest);
+    public ResponseEntity<List<CintaAuditoraDto>> getCintasAuditoras(@RequestBody CajaRegistradoraDto cajaRegistradora) throws NotFoundException {
+        ApiResponse response = cintaAuditoraService.getCintaAuditora(cajaRegistradora);
         return handleApiResponseToObjectList(response, MessageText.ENDPOINT_NAME_LOAD_MEDICATION);
     }
 }

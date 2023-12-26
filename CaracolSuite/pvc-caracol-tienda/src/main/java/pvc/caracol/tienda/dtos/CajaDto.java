@@ -1,13 +1,12 @@
-package pvc.caracol.tienda.http.input;
+package pvc.caracol.tienda.dtos;
 
 import lombok.Data;
 
 @Data
 public class CajaDto {
-    private String id;
+    private String idCaja;
     private String codigoRed;
-    private String centroCosto;
-    private String numeroCaja;
+    private String codigoCentroGestion;
     private String descripcion;
     private String codigoComercial;
     private boolean mlc;

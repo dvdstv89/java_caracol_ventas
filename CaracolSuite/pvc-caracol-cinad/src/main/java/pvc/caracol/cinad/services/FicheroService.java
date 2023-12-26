@@ -10,6 +10,9 @@ import java.nio.charset.StandardCharsets;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
+import java.time.Instant;
+import java.time.LocalDateTime;
+import java.time.ZoneId;
 import java.util.Date;
 import java.util.UUID;
 import java.util.zip.ZipEntry;
@@ -32,10 +35,14 @@ public class FicheroService implements IFicheroService {
                     if (!entry.isDirectory()) {
                         String ficheroDecodificado = new String(zipInputStream.readAllBytes(), StandardCharsets.UTF_8);
                         String[] lineas = ficheroDecodificado.split("\n");
+
+                        Instant instant = Instant.ofEpochMilli(entry.getCreationTime().toMillis());
+                        LocalDateTime fechaCreacion = LocalDateTime.ofInstant(instant, ZoneId.systemDefault());
+
                         ficheroCintaAuditora = FicheroCintaAuditora.builder()
                                 .name(entry.getName())
                                 .byteSize(entry.getSize())
-                                .fechaCreacion(new Date (entry.getCreationTime().toMillis()))
+                                .fechaCreacion(fechaCreacion)
                                 .datasourse(ficheroDecodificado)
                                 .build();
                         ficheroCintaAuditora.setCountLines(ficheroDecodificado);

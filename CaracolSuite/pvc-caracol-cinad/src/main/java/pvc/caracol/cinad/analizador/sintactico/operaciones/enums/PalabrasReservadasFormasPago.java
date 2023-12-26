@@ -1,6 +1,6 @@
 package pvc.caracol.cinad.analizador.sintactico.operaciones.enums;
 
-import pvc.caracol.cinad.analizador.lexico.tokens.enums.TokenKind;
+import pvc.caracol.common.enums.FormaPago;
 
 import java.util.Map;
 
@@ -11,8 +11,8 @@ public class PalabrasReservadasFormasPago {
     private PalabrasReservadasFormasPago() {
         reservedWords = Map.ofEntries(
                 Map.entry("TC/NAC", FormaPago.TC_NAC),
-                Map.entry("TC/CUC",FormaPago.TC_CUC),
-                Map.entry("TC/USD",FormaPago.TC_INT),
+                Map.entry("TC/CUC", FormaPago.TC_CUC),
+                Map.entry("TC/USD", FormaPago.TC_INT),
                 Map.entry("CUP", FormaPago.CUP),
                 Map.entry("CUC", FormaPago.CUC),
                 Map.entry("MLC", FormaPago.MLC),

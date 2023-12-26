@@ -5,10 +5,10 @@ import lombok.Data;
 import java.time.LocalDate;
 
 @Data
-public class CintaAuditoraRequest {
+public class CajaRegistradoraDto {
+    private Integer idCaja;
+    private String codigoRed;
+    private String codigoCentroGestion;
     private LocalDate fechaInicio;
     private LocalDate fechaFin;
-    private String codigoCentroGestion;
-    private String codigoRed;
-    private Integer idCajaRegistradora;
 }

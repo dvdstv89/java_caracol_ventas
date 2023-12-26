@@ -16,19 +16,18 @@ import java.util.List;
 public class DiaOperacion {
     private String codigoDiaOperacion;
     private LocalDate fecha;
-    @JsonIgnore
-    private List<IOperacion> operaciones;
     private List<Pago> formasPago;
     private List<Pago> propinas;
-    @JsonIgnore
     private List<VentaProducto> productos;
-    @JsonIgnore
-    private List<VentaProducto> devoluciones;
     private List<Cajero> cajeros;
+    private List<VentaProducto> devoluciones;
     @JsonIgnore
     private List<IOperacion> operacionesDescuadradas;
     @JsonIgnore
     private int cantidadOperaciones;
+    @JsonIgnore
+    private List<IOperacion> operaciones;
+
     @JsonIgnore
     public double getVentasPorProductos() {
         return productos.stream().mapToDouble(ProductoOperacion::getSaldo).sum();
@@ -78,7 +77,7 @@ public class DiaOperacion {
         operacion.getCorrecciones().forEach(correccion -> ProcesarOperacionUtil.addProductoCorreccion(productos, correccion));
         operacion.getProductos().forEach(ventaProducto -> ProcesarOperacionUtil.addProductoVenta(devoluciones, ventaProducto));
         operacion.getCorrecciones().forEach(correccion -> ProcesarOperacionUtil.addProductoCorreccion(devoluciones, correccion));
-        if(!operacion.getOperacionCuadrada())
+        if (!operacion.getOperacionCuadrada())
             operacionesDescuadradas.add(operacion);
 
         getCajero(operacion.getCajero()).increseCantidadClientes();
@@ -91,7 +90,7 @@ public class DiaOperacion {
         operacion.getProductos().forEach(ventaProducto -> ProcesarOperacionUtil.addProductoVenta(productos, ventaProducto));
         operacion.getPagos().forEach(pago -> ProcesarOperacionUtil.addPago(formasPago, pago));
         operacion.getCorrecciones().forEach(correccion -> ProcesarOperacionUtil.addProductoCorreccion(productos, correccion));
-        if(!operacion.getOperacionCuadrada())
+        if (!operacion.getOperacionCuadrada())
             operacionesDescuadradas.add(operacion);
 
         getCajero(operacion.getCajero()).increseCantidadClientes();
@@ -110,12 +109,12 @@ public class DiaOperacion {
         getCajero(operacion.getCajero()).incresePropina(operacion.getPago());
     }
 
-    private Cajero getCajero(String code){
+    private Cajero getCajero(String code) {
         Cajero cajero = cajeros.stream()
-                .filter(c->c.getCodigo().equals(code))
+                .filter(c -> c.getCodigo().equals(code))
                 .findFirst()
                 .orElse(null);
-        if(cajero == null){
+        if (cajero == null) {
             cajero = Cajero.builder()
                     .codigo(code)
                     .ventas(new ArrayList<>())
@@ -123,5 +122,16 @@ public class DiaOperacion {
             cajeros.add(cajero);
         }
         return cajero;
+    }
+
+    public void deleteProductosCountCero() {
+        List<VentaProducto> productosToDelete = productos.stream()
+                .filter(ventaProducto -> ventaProducto.getCantidad() == 0)
+                .toList();
+        productos.removeAll(productosToDelete);
+        productosToDelete = devoluciones.stream()
+                .filter(ventaProducto -> ventaProducto.getCantidad() == 0)
+                .toList();
+        devoluciones.removeAll(productosToDelete);
     }
 }

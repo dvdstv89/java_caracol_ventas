@@ -7,12 +7,13 @@ import pvc.caracol.common.exceptions.NotFoundException;
 import pvc.caracol.common.reponse.ApiResponse;
 import pvc.caracol.common.service.BaseService;
 import pvc.caracol.mistral.SystemMicroserviceMistralApplication;
-import pvc.caracol.mistral.http.input.CintaAuditoraRequest;
+import pvc.caracol.mistral.http.input.CajaRegistradoraDto;
 import pvc.caracol.mistral.http.output.CintaAuditoraDto;
+import pvc.caracol.mistral.messages.MessageText;
 import pvc.caracol.mistral.model.CintaAuditora;
 import pvc.caracol.mistral.repository.interfaces.ICintaAuditoraRepository;
 import pvc.caracol.mistral.service.interfaces.ICintaAuditoraService;
-import pvc.caracol.mistral.messages.MessageText;
+
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -27,13 +28,13 @@ public class CintaAuditoraService extends BaseService implements ICintaAuditoraS
         this.modelMapper = modelMapper;
     }
 
-    public ApiResponse getCintaAuditora(CintaAuditoraRequest cintaAuditoraRequest) throws NotFoundException {
+    public ApiResponse getCintaAuditora(CajaRegistradoraDto cajaRegistradora) throws NotFoundException {
 
-        if(cintaAuditoraRequest.getFechaInicio().isBefore(SystemMicroserviceMistralApplication.fechaMinimaBuscarCintas)){
+        if (cajaRegistradora.getFechaInicio().isBefore(SystemMicroserviceMistralApplication.fechaMinimaBuscarCintas)) {
             throw new NotFoundException(MessageText.CINTA_AUDITORA_OBSOLETA);
         }
 
-        List<CintaAuditora> cintaAuditoras = cintaAuditoraRepository.getCintaAuditora(cintaAuditoraRequest);
+        List<CintaAuditora> cintaAuditoras = cintaAuditoraRepository.getCintaAuditora(cajaRegistradora);
         if (cintaAuditoras.isEmpty()) {
             throw new NotFoundException(MessageText.CINTA_AUDITORA_NOT_FOUND);
         }

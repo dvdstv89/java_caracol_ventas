@@ -5,7 +5,7 @@ import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
-import java.util.Date;
+import java.time.LocalDate;
 
 @Data
 @Builder
@@ -15,7 +15,7 @@ public class CintaAuditora {
     private String codigoAlmacen;
     private String codigoRed;
     private String idCaja;
-    private Date fechaCreacion;
-    private Date fechaProcesado;
+    private LocalDate fechaCreacion;
+    private LocalDate fechaProcesado;
     private byte[] fichero;
 }

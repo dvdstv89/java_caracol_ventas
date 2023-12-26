@@ -9,7 +9,6 @@ public class Producto {
     private String code;
     private String name;
     private double precioUnitario;
-
     public boolean getIsInsumo() {
         return precioUnitario == 0;
     }

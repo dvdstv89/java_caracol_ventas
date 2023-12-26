@@ -1,5 +1,6 @@
 package pvc.caracol.mistral.mapper;
 
+import pvc.caracol.common.utils.DateUtil;
 import pvc.caracol.mistral.model.CintaAuditora;
 import org.springframework.jdbc.core.RowMapper;
 
@@ -13,8 +14,8 @@ public class CintaAuditoraMapper implements RowMapper<CintaAuditora> {
                 .idCaja(rs.getString("CODCAJA"))
                 .codigoRed(rs.getString("CODRED"))
                 .codigoAlmacen(rs.getString("CODALMACEN"))
-                .fechaCreacion(rs.getDate("FECHA"))
-                .fechaProcesado(rs.getDate("FECHA_RCV"))
+                .fechaCreacion(DateUtil.convertirToLocalDate(rs.getDate("FECHA")))
+                .fechaProcesado(DateUtil.convertirToLocalDate(rs.getDate("FECHA_RCV")))
                 .fichero(rs.getBytes("INFOAUX"))
                 .build();
         return cintaAuditora;

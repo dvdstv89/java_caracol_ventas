@@ -7,7 +7,6 @@ import pvc.caracol.cinad.analizador.lexico.tokens.enums.TokenKind;
 import pvc.caracol.cinad.analizador.sintactico.models.CorreccionVenta;
 import pvc.caracol.cinad.analizador.sintactico.models.ProductoOperacion;
 import pvc.caracol.cinad.analizador.sintactico.models.VentaProducto;
-import pvc.caracol.cinad.analizador.sintactico.operaciones.enums.FormaPago;
 import pvc.caracol.cinad.analizador.sintactico.operaciones.enums.TipoCorreccion;
 import pvc.caracol.cinad.analizador.sintactico.operaciones.enums.TipoOperacion;
 import pvc.caracol.cinad.models.Pago;

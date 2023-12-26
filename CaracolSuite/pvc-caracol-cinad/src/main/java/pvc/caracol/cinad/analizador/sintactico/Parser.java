@@ -154,6 +154,7 @@ public class Parser implements IParser {
             automataFinalCinta();
         }
         cintaAuditoraElectronica.depurarDiasOperaciones();
+        cintaAuditoraElectronica.depurarProductosCantidadCero();
         return cintaAuditoraElectronica;
     }
 

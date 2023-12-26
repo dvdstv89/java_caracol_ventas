@@ -1,6 +1,5 @@
 package pvc.caracol.cinad.models;
 
-import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.Data;
 import pvc.caracol.cinad.analizador.lexico.tokens.enums.CharType;
 import pvc.caracol.cinad.analizador.sintactico.operaciones.IOperacion;
@@ -17,11 +16,8 @@ public class CintaAuditoraElectronica {
     private String nombrePuntoVenta;
     private LocalDateTime fechaHaladoVenta;
     private List<DiaOperacion> diaOperacions;
-    @JsonIgnore
-    private List<IOperacion> operaciones;
 
     public CintaAuditoraElectronica() {
-        operaciones = new ArrayList<>();
         diaOperacions = new ArrayList<>();
     }
 
@@ -51,15 +47,12 @@ public class CintaAuditoraElectronica {
     public void addOperation(IOperacion operation) {
         if ((operation instanceof OperacionMantenimientoPLU))
             return;
-
-        operaciones.add(operation);
         DiaOperacion diaOperacion = diaOperacions.stream()
                 .filter(op -> op.getCodigoDiaOperacion().equals(operation.getCodigoDiaOperacion()))
                 .findFirst().orElse(null);
-        if(diaOperacion != null){
+        if (diaOperacion != null) {
             diaOperacion.addOperation(operation);
-        }
-        else {
+        } else {
             diaOperacion = new DiaOperacion();
             diaOperacion.setCodigoDiaOperacion(operation.getCodigoDiaOperacion());
             diaOperacion.setFecha(operation.getFecha().toLocalDate());
@@ -68,9 +61,13 @@ public class CintaAuditoraElectronica {
         }
     }
 
-    public void depurarDiasOperaciones(){
-        if(diaOperacions.get(diaOperacions.size()-1).getCantidadOperaciones()<3){
-            diaOperacions.remove(diaOperacions.size()-1);
+    public void depurarDiasOperaciones() {
+        if (diaOperacions.get(diaOperacions.size() - 1).getCantidadOperaciones() < 3) {
+            diaOperacions.remove(diaOperacions.size() - 1);
         }
+    }
+
+    public void depurarProductosCantidadCero() {
+        diaOperacions.forEach(DiaOperacion::deleteProductosCountCero);
     }
 }

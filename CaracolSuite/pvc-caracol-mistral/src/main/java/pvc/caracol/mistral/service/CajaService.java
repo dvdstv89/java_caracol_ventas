@@ -27,6 +27,8 @@ public class CajaService extends BaseService implements ICajaService {
         this.modelMapper = modelMapper;
     }
 
+
+    //todo eliminar
     @Override
     public List<Caja> getCajasActivas() throws NotFoundException {
         return repository.getCajasActivas("23205");

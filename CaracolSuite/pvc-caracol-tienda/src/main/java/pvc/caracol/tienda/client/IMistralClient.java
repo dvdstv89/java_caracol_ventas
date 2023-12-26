@@ -6,8 +6,8 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import pvc.caracol.common.reponse.ApiResponse;
-import pvc.caracol.tienda.http.input.CintaAuditoraDto;
-import pvc.caracol.tienda.http.output.CintaAuditoraResponse;
+import pvc.caracol.tienda.http.CintaAuditoraDto;
+import pvc.caracol.tienda.http.output.CajaRegistradoraDto;
 
 import java.util.List;
 
@@ -17,5 +17,5 @@ public interface IMistralClient {
     ApiResponse getCajasActivasCentroGestion(@PathVariable String centroGestion);
 
     @PostMapping("/api/v1/mistral/cintas-auditoras")
-    List<CintaAuditoraDto> getCintasAuditoras(@RequestBody CintaAuditoraResponse cintaAuditoraRequest) throws FeignException;
+    List<CintaAuditoraDto> getCintasAuditoras(@RequestBody CajaRegistradoraDto cajaRegistradoraDto) throws FeignException;
 }

@@ -4,9 +4,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import pvc.caracol.common.exceptions.FeignClientException;
-import pvc.caracol.common.exceptions.NotFoundException;
 import pvc.caracol.common.reponse.ApiResponse;
-import pvc.caracol.tienda.http.output.CintaAuditoraResponse;
+import pvc.caracol.tienda.http.output.CajaRegistradoraDto;
 import pvc.caracol.tienda.service.ICintaAuditoraService;
 import pvc.caracol.tienda.service.ITiendaService;
 
@@ -36,7 +35,7 @@ public class TiendaController {
     }
 
     @PostMapping("cintas-auditoras")
-    public ResponseEntity<ApiResponse> getCintasAuditoras(@RequestBody CintaAuditoraResponse cintaAuditoraRequest) throws IOException, FeignClientException {
-        return ResponseEntity.ok(cintaAuditoraService.getCintasAuditoras(cintaAuditoraRequest));
+    public ResponseEntity<ApiResponse> getCintasAuditoras(@RequestBody CajaRegistradoraDto cintaAuditoraRequest) throws IOException, FeignClientException {
+        return ResponseEntity.ok(cintaAuditoraService.getCintasAuditorasByCaja(cintaAuditoraRequest));
     }
 }

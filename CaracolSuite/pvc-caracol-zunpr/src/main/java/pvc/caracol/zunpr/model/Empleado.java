@@ -1,12 +1,13 @@
 package pvc.caracol.zunpr.model;
 
-import pvc.caracol.zunpr.enums.Genero;
-import pvc.caracol.zunpr.enums.Raza;
 import com.fasterxml.jackson.annotation.JsonFormat;
 import lombok.Builder;
 import lombok.Data;
+import pvc.caracol.zunpr.enums.Genero;
+import pvc.caracol.zunpr.enums.Raza;
 
-import java.util.Date;
+import java.time.LocalDate;
+import java.time.Period;
 
 @Data
 @Builder
@@ -20,7 +21,13 @@ public class Empleado {
     private Raza raza;
     private String telefono;
     @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "dd-MM-yyyy")
-    private Date fechaNacimiento;
+    private LocalDate fechaNacimiento;
+
+    public int getEdad() {
+        LocalDate fechaActual = LocalDate.now();
+        return Period.between(fechaNacimiento, fechaActual).getYears();
+    }
+
     private String unidadOrganizacional;
     private Float salario;
     private String grupoSalarial;

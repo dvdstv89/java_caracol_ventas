@@ -1,4 +1,4 @@
-package pvc.caracol.cinad.analizador.sintactico.operaciones.enums;
+package pvc.caracol.common.enums;
 
 import lombok.Getter;
 

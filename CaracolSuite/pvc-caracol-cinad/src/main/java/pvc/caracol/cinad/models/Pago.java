@@ -1,8 +1,8 @@
 package pvc.caracol.cinad.models;
 
 import lombok.Data;
-import pvc.caracol.cinad.analizador.sintactico.operaciones.enums.FormaPago;
 import pvc.caracol.cinad.analizador.sintactico.operaciones.enums.PalabrasReservadasFormasPago;
+import pvc.caracol.common.enums.FormaPago;
 
 @Data
 public class Pago implements Cloneable {
