@@ -1,0 +1,32 @@
+server:
+  port: 8088
+
+eureka:
+  client:
+    register-with-eureka: false
+#    serviceUrl:
+#      defaultZone: http://localhost:8761/eureka
+
+spring:
+  cloud:
+    gateway:
+      discovery:
+        locator:
+          enable: true
+      routes:
+        - id: tienda
+          uri: lb://pvc-caracol-tienda
+          predicates:
+            - Path=/api/v1/tienda/**
+        - id: mistral
+          uri: lb://pvc-caracol-mistral
+          predicates:
+            - Path=/api/v1/mistral/**
+        - id: zunpr
+          uri: lb://pvc-caracol-zunpr
+          predicates:
+            - Path=/api/v1/zunpr/**
+        - id: organizacion-empresarial
+          uri: lb://pvc-caracol-empresarial
+          predicates:
+            - Path=/api/v1/centro-gestion/**

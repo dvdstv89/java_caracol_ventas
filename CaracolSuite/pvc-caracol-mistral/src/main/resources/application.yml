@@ -1,0 +1,5 @@
+spring:
+  application:
+    name: pvc-caracol-mistral
+  config:
+    import: optional:configserver:http://localhost:8888

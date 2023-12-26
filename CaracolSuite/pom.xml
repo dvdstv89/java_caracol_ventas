@@ -10,24 +10,25 @@
         <version>3.1.6</version>
     </parent>
 
+    <groupId>pvc.steved.suite</groupId>
     <artifactId>pvc-caracol-suite</artifactId>
-    <groupId>system.partes.caracol</groupId>
     <version>1.0-SNAPSHOT</version>
 
     <modules>
-        <module>microservice-gateway</module>
-        <module>microservice-eureka</module>
-        <module>microservice-config</module>
-        <module>caracol-microservice-tienda</module>
-        <module>caracol-microservice-organizacion-empresarial</module>
-        <module>system-microservice-zunpr</module>
-        <module>system-microservice-mistral</module>
-        <module>library-steved-cinad</module>
-        <module>caracol-microservice-rrhh</module>
-        <module>caracol-microservice-energetico</module>
-        <module>caracol-microservice-partes</module>
-        <module>caracol-microservice-planes</module>
-        <module>caracol-microservice-reportes</module>
+        <module>pvc-caracol-gateway</module>
+        <module>pvc-caracol-eureka</module>
+        <module>pvc-caracol-config</module>
+        <module>pvc-caracol-tienda</module>
+        <module>pvc-caracol-empresarial</module>
+        <module>pvc-caracol-zunpr</module>
+        <module>pvc-caracol-mistral</module>
+        <module>pvc-caracol-rrhh</module>
+        <module>pvc-caracol-energetico</module>
+        <module>pvc-caracol-partes</module>
+        <module>pvc-caracol-planes</module>
+        <module>pvc-caracol-reportes</module>
+        <module>pvc-caracol-cinad</module>
+        <module>pvc-caracol-common</module>
     </modules>
 
     <name>CaracolSuite</name>
@@ -52,7 +53,7 @@
             <artifactId>spring-cloud-dependencies</artifactId>
             <version>${spring-cloud.version}</version>
             <type>pom</type>
-            <scope>import</scope>
+            <scope>compile</scope>
         </dependency>
         <dependency>
             <groupId>org.springframework.boot</groupId>
@@ -77,7 +78,7 @@
                 <plugin>
                     <groupId>org.springframework.boot</groupId>
                     <artifactId>spring-boot-maven-plugin</artifactId>
-                    <version>3.11.0</version>
+                    <version>3.2.0</version>
                 </plugin>
             </plugins>
         </pluginManagement>

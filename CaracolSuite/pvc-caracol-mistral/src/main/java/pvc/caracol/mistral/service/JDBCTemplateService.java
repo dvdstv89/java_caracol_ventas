@@ -1,0 +1,57 @@
+package pvc.caracol.mistral.service;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.jdbc.DataSourceBuilder;
+import org.springframework.jdbc.core.JdbcTemplate;
+import org.springframework.stereotype.Service;
+import pvc.caracol.common.exceptions.NotFoundException;
+import pvc.caracol.common.messages.MessageText;
+import pvc.caracol.mistral.client.IEmpresarialClient;
+import pvc.caracol.mistral.configs.JdbcTemplateSingleton;
+import pvc.caracol.mistral.model.DataBaseInfo;
+import pvc.caracol.mistral.service.interfaces.IJdbcTemplateService;
+
+import javax.sql.DataSource;
+
+@Service
+public class JDBCTemplateService implements IJdbcTemplateService {
+    private JdbcTemplateSingleton databaseInfoSingleton;
+    private IEmpresarialClient empresarialClient;
+
+    @Autowired
+    public JDBCTemplateService(JdbcTemplateSingleton databaseInfoSingleton, IEmpresarialClient empresarialClient) {
+        this.databaseInfoSingleton = databaseInfoSingleton;
+        this.empresarialClient = empresarialClient;
+    }
+
+    @Override
+    public JdbcTemplate getJdbcTemplate(String centroGestion) throws NotFoundException {
+        JdbcTemplate jdbcTemplate = databaseInfoSingleton.getJdbcTemplate(centroGestion);
+        if (jdbcTemplate == null) {
+            jdbcTemplate = createAndCacheJdbcTemplate(centroGestion);
+        }
+        return jdbcTemplate;
+    }
+
+    private JdbcTemplate createAndCacheJdbcTemplate(String centroGestion) throws NotFoundException {
+        DataBaseInfo databaseInfo = empresarialClient.findBaseDatosMistralByCodeCentroGestion(centroGestion);
+        if (databaseInfo == null) {
+            throw new NotFoundException(MessageText.DRONE_NOT_FOUND_AVAILABLE_FOR_LOADING);
+        }
+
+        String databaseUrl = String.format("jdbc:sqlserver://%s:%d;databaseName=%s;trustServerCertificate=true",
+                databaseInfo.getHost(), databaseInfo.getPort(), databaseInfo.getName());
+
+        DataSource dataSource = DataSourceBuilder.create()
+                .driverClassName("com.microsoft.sqlserver.jdbc.SQLServerDriver")
+                .url(databaseUrl)
+                .username(databaseInfo.getUsername())
+                .password(databaseInfo.getPassword())
+                .build();
+
+        JdbcTemplate jdbcTemplate = new JdbcTemplate(dataSource);
+
+        databaseInfoSingleton.addJdbcTemplate(centroGestion, jdbcTemplate);
+        return jdbcTemplate;
+    }
+}

@@ -1,0 +1,5 @@
+spring:
+  application:
+    name: pvc-caracol-tienda
+  config:
+    import: optional:configserver:http://localhost:8888
