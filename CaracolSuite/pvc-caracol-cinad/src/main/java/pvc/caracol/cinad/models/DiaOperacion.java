@@ -16,15 +16,23 @@ import java.util.List;
 public class DiaOperacion {
     private String codigoDiaOperacion;
     private LocalDate fecha;
-    // @JsonIgnore
+    @JsonIgnore
     private List<IOperacion> operaciones;
     private List<Pago> formasPago;
     private List<Pago> propinas;
+    @JsonIgnore
     private List<VentaProducto> productos;
+    @JsonIgnore
     private List<VentaProducto> devoluciones;
     private List<Cajero> cajeros;
     @JsonIgnore
+    private List<IOperacion> operacionesDescuadradas;
+    @JsonIgnore
     private int cantidadOperaciones;
+    @JsonIgnore
+    public double getVentasPorProductos() {
+        return productos.stream().mapToDouble(ProductoOperacion::getSaldo).sum();
+    }
 
     public DiaOperacion() {
         operaciones = new ArrayList<>();
@@ -33,6 +41,7 @@ public class DiaOperacion {
         cajeros = new ArrayList<>();
         propinas = new ArrayList<>();
         devoluciones = new ArrayList<>();
+        operacionesDescuadradas = new ArrayList<>();
         cantidadOperaciones = 0;
     }
 
@@ -54,45 +63,65 @@ public class DiaOperacion {
     }
 
     private void procesarTVOID(OperacionTVOID operacion) {
-        procesarDevoluciones((OperationConProducto) operacion);
+        procesarDevoluciones(operacion);
+        getCajero(operacion.getCajero()).increseTVoid();
     }
 
     private void procesarREFUND(OperacionREFUND operacion) {
-        procesarDevoluciones((OperationConProducto) operacion);
+        procesarDevoluciones(operacion);
+        getCajero(operacion.getCajero()).increseRefund();
     }
 
     private void procesarDevoluciones(OperationConProducto operacion) {
         operacion.getPagos().forEach(pago -> ProcesarOperacionUtil.addPago(formasPago, pago));
+        operacion.getProductos().forEach(producto -> ProcesarOperacionUtil.addProductoVenta(productos, producto));
         operacion.getCorrecciones().forEach(correccion -> ProcesarOperacionUtil.addProductoCorreccion(productos, correccion));
         operacion.getProductos().forEach(ventaProducto -> ProcesarOperacionUtil.addProductoVenta(devoluciones, ventaProducto));
         operacion.getCorrecciones().forEach(correccion -> ProcesarOperacionUtil.addProductoCorreccion(devoluciones, correccion));
+        if(!operacion.getOperacionCuadrada())
+            operacionesDescuadradas.add(operacion);
+
+        getCajero(operacion.getCajero()).increseCantidadClientes();
+        getCajero(operacion.getCajero()).addVentas(operacion.getPagos());
+        getCajero(operacion.getCajero()).increseCorrecciones(operacion.getCorrecciones());
+        getCajero(operacion.getCajero()).increseProductos(operacion.getProductos());
     }
 
     private void procesarVenta(OperacionVenta operacion) {
         operacion.getProductos().forEach(ventaProducto -> ProcesarOperacionUtil.addProductoVenta(productos, ventaProducto));
         operacion.getPagos().forEach(pago -> ProcesarOperacionUtil.addPago(formasPago, pago));
         operacion.getCorrecciones().forEach(correccion -> ProcesarOperacionUtil.addProductoCorreccion(productos, correccion));
+        if(!operacion.getOperacionCuadrada())
+            operacionesDescuadradas.add(operacion);
 
+        getCajero(operacion.getCajero()).increseCantidadClientes();
+        getCajero(operacion.getCajero()).addVentas(operacion.getPagos());
+        getCajero(operacion.getCajero()).increseCorrecciones(operacion.getCorrecciones());
+        getCajero(operacion.getCajero()).increseProductos(operacion.getProductos());
 
-
-//correcciones
     }
 
     private void procesarReporte(OperationWhitFooter operacion) {
-
+        getCajero(operacion.getCajero()).increseReportes();
     }
 
     private void procesarPropina(OperacionPropina operacion) {
-        ProcesarOperacionUtil.addPago(propinas, operacion.getPago());
+        ProcesarOperacionUtil.addPago(propinas, operacion.getPago().clone());
+        getCajero(operacion.getCajero()).incresePropina(operacion.getPago());
     }
 
-    //productos
-    //pagos
-    //correcciones
-    //cajeros
-
-
-    public double getVentasPorProductos() {
-        return productos.stream().mapToDouble(ProductoOperacion::getSaldo).sum();
+    private Cajero getCajero(String code){
+        Cajero cajero = cajeros.stream()
+                .filter(c->c.getCodigo().equals(code))
+                .findFirst()
+                .orElse(null);
+        if(cajero == null){
+            cajero = Cajero.builder()
+                    .codigo(code)
+                    .ventas(new ArrayList<>())
+                    .build();
+            cajeros.add(cajero);
+        }
+        return cajero;
     }
 }

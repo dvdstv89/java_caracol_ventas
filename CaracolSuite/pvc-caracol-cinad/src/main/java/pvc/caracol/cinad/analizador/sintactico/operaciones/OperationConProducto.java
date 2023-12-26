@@ -25,6 +25,28 @@ public abstract class OperationConProducto extends OperationWhitFooter {
     protected List<VentaProducto> productos;
     protected List<CorreccionVenta> correcciones;
 
+    public boolean getOperacionCuadrada(){
+        double costoProdutos = productos.stream().mapToDouble(ProductoOperacion::getSaldo).sum();
+        double correcion = correcciones.stream().mapToDouble(ProductoOperacion::getSaldo).sum();
+        costoProdutos+=correcion;
+        double pagosEfectuados = 0.0;
+        for(Pago cash: pagos){
+            double dinero = cash.getPagado();
+           /* if(cash.getFormaPago().equals(FormaPago.CUP)){
+                dinero /=25;
+            }*/
+            pagosEfectuados+=dinero;
+        }
+        pagosEfectuados = Math.round(pagosEfectuados * 100.0) / 100.0;
+        costoProdutos = Math.round(costoProdutos * 100.0) / 100.0;
+        boolean result = pagosEfectuados == costoProdutos;
+        if(!result) {
+        String x = "";
+        }
+        return result;
+    }
+
+
     protected OperationConProducto(TipoOperacion tipoOperacion, List<Token> tokens) {
         super(tipoOperacion, tokens);
         this.pagos = new ArrayList<>();

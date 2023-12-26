@@ -39,6 +39,7 @@ public class CintaAuditoraService implements ICintaAuditoraService {
 
     @Override
     public ApiResponse procesarCintasAuditoras(List<CintaAuditoraDto> cintaAuditoraDtos) throws IOException {
+        //todo aumentar las cintas auditoras a revisar
         byte[] bytes = cintaAuditoraDtos.get(0).getFichero();
         return cinadlClient.analizarCintaAuditora(bytes);
     }
