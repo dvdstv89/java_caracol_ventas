@@ -10,7 +10,7 @@ import java.sql.SQLException;
 public class CintaAuditoraMapper implements RowMapper<CintaAuditora> {
     @Override
     public CintaAuditora mapRow(ResultSet rs, int rowNum) throws SQLException {
-        CintaAuditora cintaAuditora = CintaAuditora.builder()
+        return CintaAuditora.builder()
                 .idCaja(rs.getString("CODCAJA"))
                 .codigoRed(rs.getString("CODRED"))
                 .codigoAlmacen(rs.getString("CODALMACEN"))
@@ -18,6 +18,5 @@ public class CintaAuditoraMapper implements RowMapper<CintaAuditora> {
                 .fechaProcesado(DateUtil.convertirToLocalDate(rs.getDate("FECHA_RCV")))
                 .fichero(rs.getBytes("INFOAUX"))
                 .build();
-        return cintaAuditora;
     }
 }

@@ -3,7 +3,6 @@ package pvc.caracol.mistral.http.output;
 import lombok.Data;
 
 import java.time.LocalDate;
-import java.util.Date;
 
 @Data
 public class CintaAuditoraDto {

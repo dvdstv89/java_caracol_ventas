@@ -5,9 +5,9 @@ import org.springframework.boot.jdbc.DataSourceBuilder;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.stereotype.Service;
 import pvc.caracol.common.exceptions.NotFoundException;
-import pvc.caracol.common.messages.MessageText;
 import pvc.caracol.mistral.client.IEmpresarialClient;
 import pvc.caracol.mistral.configs.JdbcTemplateSingleton;
+import pvc.caracol.mistral.messages.MessageText;
 import pvc.caracol.mistral.model.DataBaseInfo;
 import pvc.caracol.mistral.service.interfaces.IJdbcTemplateService;
 
@@ -16,7 +16,7 @@ import javax.sql.DataSource;
 @Service
 public class JDBCTemplateService implements IJdbcTemplateService {
     private JdbcTemplateSingleton databaseInfoSingleton;
-    private IEmpresarialClient empresarialClient;
+    private final IEmpresarialClient empresarialClient;
 
     @Autowired
     public JDBCTemplateService(JdbcTemplateSingleton databaseInfoSingleton, IEmpresarialClient empresarialClient) {
@@ -36,7 +36,7 @@ public class JDBCTemplateService implements IJdbcTemplateService {
     private JdbcTemplate createAndCacheJdbcTemplate(String centroGestion) throws NotFoundException {
         DataBaseInfo databaseInfo = empresarialClient.findBaseDatosMistralByCodeCentroGestion(centroGestion);
         if (databaseInfo == null) {
-            throw new NotFoundException(MessageText.DRONE_NOT_FOUND_AVAILABLE_FOR_LOADING);
+            throw new NotFoundException(String.format(MessageText.DATABASE_MISTRAL_NOT_FOUND, centroGestion));
         }
 
         String databaseUrl = String.format("jdbc:sqlserver://%s:%d;databaseName=%s;trustServerCertificate=true",

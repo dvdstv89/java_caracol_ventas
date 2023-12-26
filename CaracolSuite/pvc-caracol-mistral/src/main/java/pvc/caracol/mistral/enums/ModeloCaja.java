@@ -1,10 +1,13 @@
 package pvc.caracol.mistral.enums;
 
+import lombok.Getter;
+
 import java.util.Arrays;
 import java.util.Map;
 import java.util.function.Function;
 import java.util.stream.Collectors;
 
+@Getter
 public enum ModeloCaja {
     Serie2000("CO_2044"),
     Serie3000("CO_3020");
@@ -12,9 +15,6 @@ public enum ModeloCaja {
     private final String tipo;
     ModeloCaja(String tipo) {
         this.tipo = tipo;
-    }
-    public String getTipo() {
-        return tipo;
     }
 
     private static final Map<String, ModeloCaja> serieToModelMap = Arrays

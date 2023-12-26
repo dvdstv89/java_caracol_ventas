@@ -15,10 +15,13 @@ import pvc.caracol.common.reponse.ApiResponse;
 import pvc.caracol.mistral.enums.ModeloCaja;
 import pvc.caracol.mistral.model.Caja;
 import pvc.caracol.mistral.repository.interfaces.ICajaRepository;
+import pvc.caracol.mistral.service.support.NameCaseTest;
+import pvc.caracol.mistral.service.support.TestSuport;
 
-import java.util.Arrays;
+import java.util.Collections;
 
-import static org.junit.jupiter.api.Assertions.assertNotNull;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.mockito.Mockito.when;
 
 @RunWith(SpringRunner.class)
@@ -49,13 +52,24 @@ class CajaServiceTest {
                 .mlc(true)
                 .modelo(ModeloCaja.Serie2000)
                 .build();
-
     }
 
-    @ParameterizedTest(name = "Load medication into drone with {0}: {1}")
-    @MethodSource("pvc.caracol.mistral.service.support.CajaServiceTestSuport#getCajasActivasByCentroGestionTestCases")
+    @ParameterizedTest(name = "Buscar Cajas registradoras activas {0}: {1}")
+    @MethodSource("pvc.caracol.mistral.service.support.TestSuport#getCajasActivasByCentroGestionTestCases")
     void getCajasActivasByCentroGestion(HttpStatus expectedHttpStatus, String testName) throws NotFoundException {
-        when(cajaRepository.getCajasActivas(centroGestion)).thenReturn(Arrays.asList(caja));
-        assertNotNull(cajaService.getCajasActivasByCentroGestion(centroGestion));
+        // Arrange
+        if (testName.equals(NameCaseTest.CAJAS_OK)) {
+            when(cajaRepository.getCajasActivas(centroGestion)).thenReturn(Collections.singletonList(caja));
+        }
+        if (testName.equals(NameCaseTest.CAJAS_NOT_FOUND)) {
+            when(cajaRepository.getCajasActivas(centroGestion)).thenReturn(Collections.emptyList());
+            assertThrows(NotFoundException.class, () -> cajaService.getCajasActivasByCentroGestion(centroGestion));
+            return;
+        }
+
+        //Act
+        ApiResponse result = cajaService.getCajasActivasByCentroGestion(centroGestion);
+        //Assert
+        assertEquals(expectedHttpStatus, result.getStatusCode());
     }
 }

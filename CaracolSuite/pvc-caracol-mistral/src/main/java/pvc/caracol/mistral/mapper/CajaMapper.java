@@ -10,7 +10,7 @@ import java.sql.SQLException;
 public class CajaMapper implements RowMapper<Caja> {
     @Override
     public Caja mapRow(ResultSet rs, int rowNum) throws SQLException {
-        Caja caja = Caja.builder()
+        return Caja.builder()
                 .id(rs.getString("CODCAJA"))
                 .codigoRed(rs.getString("CODRED"))
                 .centroCosto(rs.getString("CCOSTO"))
@@ -20,6 +20,5 @@ public class CajaMapper implements RowMapper<Caja> {
                 .mlc(rs.getBoolean("MLC"))
                 .modelo(ModeloCaja.fromSerie(rs.getString("TIPOCAJA")))
                 .build();
-        return caja;
     }
 }
