@@ -11,12 +11,11 @@ import org.modelmapper.ModelMapper;
 import org.springframework.http.HttpStatus;
 import org.springframework.test.context.junit4.SpringRunner;
 import pvc.caracol.common.exceptions.NotFoundException;
-import pvc.caracol.common.reponse.ApiResponse;
+import pvc.caracol.common.reponse.WebResponse;
 import pvc.caracol.mistral.enums.ModeloCaja;
 import pvc.caracol.mistral.model.Caja;
 import pvc.caracol.mistral.repository.interfaces.ICajaRepository;
 import pvc.caracol.mistral.service.support.NameCaseTest;
-import pvc.caracol.mistral.service.support.TestSuport;
 
 import java.util.Collections;
 
@@ -27,7 +26,7 @@ import static org.mockito.Mockito.when;
 @RunWith(SpringRunner.class)
 class CajaServiceTest {
     @Mock
-    protected ApiResponse response;
+    protected WebResponse response;
     @Mock
     private ModelMapper modelMapper;
     @Mock
@@ -68,7 +67,7 @@ class CajaServiceTest {
         }
 
         //Act
-        ApiResponse result = cajaService.getCajasActivasByCentroGestion(centroGestion);
+        WebResponse result = cajaService.getCajasActivasByCentroGestion(centroGestion);
         //Assert
         assertEquals(expectedHttpStatus, result.getStatusCode());
     }

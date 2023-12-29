@@ -3,6 +3,8 @@ package pvc.caracol.empresarial.models;
 import jakarta.persistence.*;
 import lombok.Data;
 
+import java.util.List;
+
 @Data
 @Entity
 @Table(name = "centro_gestion")
@@ -27,4 +29,13 @@ public class CentroGestion {
     @OneToOne(cascade = CascadeType.ALL)
     @JoinColumn(name = "id_database", referencedColumnName = "id")
     private DataBaseMistral database;
+
+    @OneToMany(mappedBy = "centroGestion")
+    private List<UnidadOrganizativa> unidadesOrganizativas;
+
+    @OneToMany(mappedBy = "centroGestion")
+    private List<Metrocontador> metrocontadores;
+
+    @OneToMany(mappedBy = "centroGestion")
+    private List<Tienda> tiendas;
 }

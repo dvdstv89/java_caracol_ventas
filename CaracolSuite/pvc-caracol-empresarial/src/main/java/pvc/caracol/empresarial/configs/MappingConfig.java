@@ -1,4 +1,4 @@
-package pvc.caracol.empresarial.configs.mapper;
+package pvc.caracol.empresarial.configs;
 
 import org.modelmapper.ModelMapper;
 import org.springframework.context.annotation.Bean;

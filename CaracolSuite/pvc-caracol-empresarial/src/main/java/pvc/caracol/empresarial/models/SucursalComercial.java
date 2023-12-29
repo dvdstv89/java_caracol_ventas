@@ -25,4 +25,7 @@ public class SucursalComercial {
 
     @OneToMany(mappedBy = "sucursalComercial")
     private List<Complejo> complejos;
+
+    @OneToMany(mappedBy = "sucursalComercial")
+    private List<Metrocontador> metrocontadores;
 }

@@ -19,3 +19,9 @@ spring:
       ddl-auto: update
   liquibase:
     change-log: classpath:db.changelog.xml
+springdoc:
+  api-docs:
+    enable: true
+  swagger-ui:
+    enable: true
+#  packagesToScan: pvc.caracol.empresarial.controller

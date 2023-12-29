@@ -1,7 +1,7 @@
 package pvc.caracol.tienda.service;
 
-import pvc.caracol.common.reponse.ApiResponse;
+import pvc.caracol.common.reponse.WebResponse;
 
 public interface ITiendaService {
-    ApiResponse findCajasActivasByCodeCentroGestion(String code);
+    WebResponse findCajasActivasByCodeCentroGestion(String code);
 }

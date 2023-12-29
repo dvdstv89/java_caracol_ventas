@@ -11,13 +11,12 @@ import pvc.caracol.cinad.analizador.sintactico.models.VentaProducto;
 import pvc.caracol.cinad.dtos.*;
 import pvc.caracol.cinad.http.CintaAuditoraDto;
 import pvc.caracol.cinad.models.*;
-import pvc.caracol.common.reponse.ApiResponse;
+import pvc.caracol.common.reponse.WebResponse;
 import pvc.caracol.common.service.BaseService;
 
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.stream.Collectors;
 
 @Service
 public class CintaAuditoraService extends BaseService implements ICintaAuditoraService {
@@ -30,7 +29,7 @@ public class CintaAuditoraService extends BaseService implements ICintaAuditoraS
         this.modelMapper = modelMapper;
     }
 
-    public ApiResponse analizarCintaAuditora(CintaAuditoraDto cintaAuditoraDto) throws Exception {
+    public WebResponse analizarCintaAuditora(CintaAuditoraDto cintaAuditoraDto) throws Exception {
         FicheroCintaAuditora ficheroCintaAuditora = ficheroService.decodificarFichero(cintaAuditoraDto.getFichero());
         ILexer lexer = new Lexer(ficheroCintaAuditora.getSourceStream());
         IParser parser = new Parser(lexer);

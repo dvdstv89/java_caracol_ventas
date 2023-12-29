@@ -1,4 +1,4 @@
 package pvc.caracol.tienda.model;
 
-public class PuntoVenta {
+public class TiendaVirtual {
 }

@@ -6,7 +6,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import pvc.caracol.common.controller.BaseController;
 import pvc.caracol.common.exceptions.NotFoundException;
-import pvc.caracol.common.reponse.ApiResponse;
+import pvc.caracol.common.reponse.WebResponse;
 import pvc.caracol.mistral.dtos.CajaDto;
 import pvc.caracol.mistral.http.input.CajaRegistradoraDto;
 import pvc.caracol.mistral.http.output.CintaAuditoraDto;
@@ -31,13 +31,13 @@ public class MistralController extends BaseController {
 
     @PostMapping("cajas-activas-centro-gestion/{centroGestion}")
     public ResponseEntity<List<CajaDto>> getCajasActivasByCentroGestion(@PathVariable String centroGestion) throws NotFoundException {
-        ApiResponse response = cajaService.getCajasActivasByCentroGestion(centroGestion);
+        WebResponse response = cajaService.getCajasActivasByCentroGestion(centroGestion);
         return handleApiResponseToObject(response, MessageText.ENDPOINT_CAJAS_REGISTRADORAS_ACTIVAS_BY_CENTRO_GESTION);
     }
 
     @PostMapping("cintas-auditoras")
     public ResponseEntity<List<CintaAuditoraDto>> getCintasAuditoras(@RequestBody CajaRegistradoraDto cajaRegistradora) throws NotFoundException {
-        ApiResponse response = cintaAuditoraService.getCintaAuditora(cajaRegistradora);
+        WebResponse response = cintaAuditoraService.getCintaAuditora(cajaRegistradora);
         return handleApiResponseToObjectList(response, MessageText.ENDPOINT_CINTAS_AUDITORAS_BY_CAJA_REGGISTERADORA);
     }
 }

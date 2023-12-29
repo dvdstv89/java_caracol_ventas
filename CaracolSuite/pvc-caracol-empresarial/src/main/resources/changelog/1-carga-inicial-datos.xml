@@ -87,5 +87,29 @@
             <column name="id_complejo" valueComputed="(SELECT id FROM complejo WHERE code = '23208')"/>
             <column name="id_database" valueComputed="(SELECT id FROM database_mistral WHERE code = 'NACIONAL')"/>
         </insert>
+
+        <insert tableName="unidad_organizativa">
+            <column name="description" value="Departamento de Tiendas Habana Libre"/>
+            <column name="code" value="1070"/>
+            <column name="id_centro_gestion" valueComputed="(SELECT id FROM centro_gestion WHERE code = '23205')"/>
+        </insert>
+
+        <insert tableName="unidad_organizativa">
+            <column name="description" value="Administración Grupo de Tiendas 1"/>
+            <column name="code" value="1071"/>
+            <column name="id_centro_gestion" valueComputed="(SELECT id FROM centro_gestion WHERE code = '23205')"/>
+        </insert>
+
+        <insert tableName="unidad_organizativa">
+            <column name="description" value="Administración Grupo de Tiendas 2"/>
+            <column name="code" value="1072"/>
+            <column name="id_centro_gestion" valueComputed="(SELECT id FROM centro_gestion WHERE code = '23205')"/>
+        </insert>
+
+        <insert tableName="unidad_organizativa">
+            <column name="description" value="Division de Tiendas Hoteleras"/>
+            <column name="code" value="1080"/>
+            <column name="id_centro_gestion" valueComputed="(SELECT id FROM centro_gestion WHERE code = '23208')"/>
+        </insert>
     </changeSet>
 </databaseChangeLog>

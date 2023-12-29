@@ -1,0 +1,9 @@
+package pvc.caracol.rrhh.models;
+
+import pvc.caracol.rrhh.enums.Cargo;
+
+public class Cajero extends Trabajador{
+    Cargo cargo;
+
+
+}

@@ -8,7 +8,7 @@ import org.springframework.web.bind.annotation.PathVariable;
 
 @FeignClient(name = "pvc-caracol-empresarial")
 public interface IEmpresarialClient {
-    @GetMapping("/api/v1/centro-gestion/database-mistral/{code}")
+    @GetMapping("/api/v1/empresarial/database-mistral/{code}")
     DataBaseInfo findBaseDatosMistralByCodeCentroGestion(@PathVariable String code);
 
 }

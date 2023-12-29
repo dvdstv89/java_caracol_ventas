@@ -3,7 +3,7 @@ package pvc.caracol.tienda.service;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-import pvc.caracol.common.reponse.ApiResponse;
+import pvc.caracol.common.reponse.WebResponse;
 import pvc.caracol.common.service.BaseService;
 import pvc.caracol.tienda.client.IMistralClient;
 
@@ -19,7 +19,7 @@ public class TiendaService extends BaseService implements ITiendaService {
     }
 
     @Override
-    public ApiResponse findCajasActivasByCodeCentroGestion(String code) {
-        return mistralClient.getCajasActivasCentroGestion(code);
+    public WebResponse findCajasActivasByCodeCentroGestion(String code) {
+        return mistralClient.getCajasActivasByCentroGestion(code);
     }
 }

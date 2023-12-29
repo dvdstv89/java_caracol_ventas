@@ -4,7 +4,7 @@ import feign.FeignException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import pvc.caracol.common.exceptions.FeignClientException;
-import pvc.caracol.common.reponse.ApiResponse;
+import pvc.caracol.common.reponse.WebResponse;
 import pvc.caracol.common.service.BaseService;
 import pvc.caracol.tienda.client.ICinadlClient;
 import pvc.caracol.tienda.client.IMistralClient;
@@ -29,7 +29,7 @@ public class CintaAuditoraService extends BaseService implements ICintaAuditoraS
     }
 
     @Override
-    public ApiResponse getCintasAuditorasByCaja(CajaRegistradoraDto cajaRegistradoraDto) throws IOException, FeignClientException {
+    public WebResponse getCintasAuditorasByCaja(CajaRegistradoraDto cajaRegistradoraDto) throws IOException, FeignClientException {
         try {
             List<CintaAuditoraDto> cintasAuditoras = mistralClient.getCintasAuditoras(cajaRegistradoraDto);
             return procesarCintasAuditoras(cintasAuditoras);
@@ -39,7 +39,7 @@ public class CintaAuditoraService extends BaseService implements ICintaAuditoraS
     }
 
     @Override
-    public ApiResponse procesarCintasAuditoras(List<CintaAuditoraDto> cintaAuditoraDtos) throws IOException {
+    public WebResponse procesarCintasAuditoras(List<CintaAuditoraDto> cintaAuditoraDtos) throws IOException {
         List<CintaAuditoraProcesadaDto> cintaAuditoraElectronicas = cintaAuditoraDtos.stream()
                 .map(cintaAuditoraDto -> {
                     try {

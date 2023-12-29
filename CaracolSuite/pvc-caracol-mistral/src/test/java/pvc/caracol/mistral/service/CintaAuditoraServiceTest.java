@@ -11,7 +11,7 @@ import org.modelmapper.ModelMapper;
 import org.springframework.http.HttpStatus;
 import org.springframework.test.context.junit4.SpringRunner;
 import pvc.caracol.common.exceptions.NotFoundException;
-import pvc.caracol.common.reponse.ApiResponse;
+import pvc.caracol.common.reponse.WebResponse;
 import pvc.caracol.mistral.http.input.CajaRegistradoraDto;
 import pvc.caracol.mistral.model.CintaAuditora;
 import pvc.caracol.mistral.repository.interfaces.ICintaAuditoraRepository;
@@ -27,7 +27,7 @@ import static org.mockito.Mockito.when;
 @RunWith(SpringRunner.class)
 class CintaAuditoraServiceTest {
     @Mock
-    protected ApiResponse response;
+    protected WebResponse response;
     @Mock
     private ModelMapper modelMapper;
     @Mock
@@ -67,7 +67,7 @@ class CintaAuditoraServiceTest {
         }
 
         //Act
-        ApiResponse result = cintaAuditoraService.getCintaAuditora(cajaRegistradoraDto);
+        WebResponse result = cintaAuditoraService.getCintaAuditora(cajaRegistradoraDto);
         //Assert
         assertEquals(expectedHttpStatus, result.getStatusCode());
     }

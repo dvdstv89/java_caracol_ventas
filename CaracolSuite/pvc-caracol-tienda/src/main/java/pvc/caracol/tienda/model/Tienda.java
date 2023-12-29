@@ -2,9 +2,9 @@ package pvc.caracol.tienda.model;
 
 import java.util.List;
 
-public class Tienda {
-
-    private List<PuntoVenta> puntoVentas;
+public abstract class Tienda {
+    private int idCentroGestion;
+   List<Venta> ventas;
     private boolean isMlc;
-    private Integer ordenComercial;
+
 }

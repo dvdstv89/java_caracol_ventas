@@ -9,6 +9,6 @@ import org.springframework.context.annotation.Bean;
 public class LoggerConfig {
     @Bean
     public Logger logger() {
-        return LoggerFactory.getLogger("com.system.mistral");
+        return LoggerFactory.getLogger("pvc.caracol.mistral");
     }
 }

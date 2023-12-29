@@ -1,4 +1,4 @@
-package pvc.caracol.empresarial.http.output;
+package pvc.caracol.empresarial.http;
 
 import lombok.Data;
 
@@ -9,4 +9,5 @@ public class DataBaseMistralDTO {
     private Integer port;
     private String username;
     private String password;
+    private String description;
 }
