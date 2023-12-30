@@ -29,4 +29,8 @@ spring:
         - id: organizacion-empresarial
           uri: lb://pvc-caracol-empresarial
           predicates:
-            - Path=/api/v1/centro-gestion/**, /api/v1/empresarial/doc/**
+            - Path=/api/v1/centro-gestion/**
+        - id: documentation
+          uri: lb://pvc-caracol-documentation
+          predicates:
+            - Path=/v1/doc/**

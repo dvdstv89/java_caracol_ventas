@@ -3,4 +3,3 @@ spring:
     name: pvc-caracol-empresarial
   config:
     import: optional:configserver:http://localhost:8888
-

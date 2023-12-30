@@ -6,10 +6,10 @@ import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.servlet.view.RedirectView;
 
 @RestController
-@RequestMapping("/api/v1/empresarial/doc")
+@RequestMapping("/api/v1/doc/reportes")
 public class SwaggerRedirectController {
     @GetMapping
-    public RedirectView index() {
+    public RedirectView swagger() {
         return new RedirectView("/swagger-ui/index.html");
     }
 }

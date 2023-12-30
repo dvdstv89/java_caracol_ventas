@@ -29,6 +29,7 @@
         <module>pvc-caracol-reportes</module>
         <module>pvc-caracol-cinad</module>
         <module>pvc-caracol-common</module>
+        <module>pvc-caracol-documentation</module>
     </modules>
 
     <name>CaracolSuite</name>
