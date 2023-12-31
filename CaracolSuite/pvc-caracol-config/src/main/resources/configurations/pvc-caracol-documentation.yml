@@ -10,4 +10,6 @@ api-docs:
   enable: true
 swagger-ui:
    enable: true
+   operations-sorter: method
+   tags-sorter: alpha
 #  packagesToScan: pvc.caracol.empresarial.controller

@@ -15,9 +15,12 @@ spring:
 #      hibernate:
 #        SQL=debug:
 #      springframework: DEBUG
+
 springdoc:
   api-docs:
     enable: true
   swagger-ui:
     enable: true
-#  packagesToScan: pvc.caracol.empresarial.controller
+    operations-sorter: method
+    tags-sorter: alpha
+##  packagesToScan: pvc.caracol.empresarial.controller

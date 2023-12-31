@@ -1,5 +1,6 @@
 package pvc.caracol.documentation.controllers;
 
+import io.swagger.v3.oas.annotations.Operation;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -43,53 +44,76 @@ public class DocumentationController {
         return new RedirectView("/swagger-ui/index.html");
     }
 
+    @Operation(
+            //  operationId = "1",
+            summary = "Swagger Empresarial Documentation",
+            description = "Get a Tutorial object by specifying its id. The response is Tutorial object with id, title, description and published status."
+            //,hidden = true
+//            ,tags = { "tutorials", "get" }
+    )
     @GetMapping("swagger/empresarial")
     public RedirectView getSwaggerEmpresarialMicroservice() {
-        return empresarialClient.swagger();
+        String swaggerUrl = empresarialClient.swaggerString();
+        return redirectToUrl(swaggerUrl);
     }
 
     @GetMapping("swagger/tienda")
     public RedirectView getSwaggerTiendaMicroservice() {
-        return tiendaClient.swagger();
+        String swaggerUrl = tiendaClient.swaggerString();
+        return redirectToUrl(swaggerUrl);
     }
 
     @GetMapping("swagger/mistral")
     public RedirectView getSwaggerMistralMicroservice() {
-        return mistralClient.swagger();
+        String swaggerUrl = mistralClient.swaggerString();
+        return redirectToUrl(swaggerUrl);
     }
 
     @GetMapping("swagger/energetico")
     public RedirectView getSwaggerEnergeticoMicroservice() {
-        return energeticoClient.swagger();
+        String swaggerUrl = energeticoClient.swaggerString();
+        return redirectToUrl(swaggerUrl);
     }
 
     @GetMapping("swagger/planes")
     public RedirectView getSwaggerPlanesMicroservice() {
-        return planesClient.swagger();
+        String swaggerUrl = planesClient.swaggerString();
+        return redirectToUrl(swaggerUrl);
     }
 
     @GetMapping("swagger/partes")
     public RedirectView getSwaggerPartesMicroservice() {
-        return partesClient.swagger();
+        String swaggerUrl = partesClient.swaggerString();
+        return redirectToUrl(swaggerUrl);
     }
 
     @GetMapping("swagger/reportes")
     public RedirectView getSwaggerReportesMicroservice() {
-        return reportesClient.swagger();
+        String swaggerUrl = reportesClient.swaggerString();
+        return redirectToUrl(swaggerUrl);
     }
 
     @GetMapping("swagger/rrhh")
     public RedirectView getSwaggerRrhhMicroservice() {
-        return rrhhClient.swagger();
+        String swaggerUrl = rrhhClient.swaggerString();
+        return redirectToUrl(swaggerUrl);
     }
 
     @GetMapping("swagger/zun")
     public RedirectView getSwaggerZunMicroservice() {
-        return zunClient.swagger();
+        String swaggerUrl = zunClient.swaggerString();
+        return redirectToUrl(swaggerUrl);
     }
 
     @GetMapping("swagger/cinad")
     public RedirectView getSwaggerCinadMicroservice() {
-        return cinadClient.swagger();
+        String swaggerUrl = cinadClient.swaggerString();
+        return redirectToUrl(swaggerUrl);
+    }
+
+    private RedirectView redirectToUrl(String swaggerUrl) {
+        RedirectView redirectView = new RedirectView();
+        redirectView.setUrl(swaggerUrl);
+        return redirectView;
     }
 }

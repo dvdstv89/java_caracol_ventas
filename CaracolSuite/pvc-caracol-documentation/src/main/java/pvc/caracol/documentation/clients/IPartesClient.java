@@ -7,6 +7,6 @@ import org.springframework.web.servlet.view.RedirectView;
 
 @FeignClient(name = "pvc-caracol-partes")
 public interface IPartesClient {
-    @GetMapping("/api/v1/doc/partes")
-    public RedirectView swagger();
+    @GetMapping("/api/v1/doc/partes/string")
+    public String swaggerString();
 }

@@ -7,6 +7,6 @@ import org.springframework.web.servlet.view.RedirectView;
 
 @FeignClient(name = "pvc-caracol-zunpr")
 public interface IZunClient {
-    @GetMapping("/api/v1/doc/zun")
-    public RedirectView swagger();
+    @GetMapping("/api/v1/doc/zunpr/string")
+    public String swaggerString();
 }

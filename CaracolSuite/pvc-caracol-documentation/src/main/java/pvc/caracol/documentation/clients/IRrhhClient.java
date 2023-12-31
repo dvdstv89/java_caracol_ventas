@@ -7,6 +7,6 @@ import org.springframework.web.servlet.view.RedirectView;
 
 @FeignClient(name = "pvc-caracol-rrhh")
 public interface IRrhhClient {
-    @GetMapping("/api/v1/doc/rrhh")
-    public RedirectView swagger();
+    @GetMapping("/api/v1/doc/rrhh/string")
+    public String swaggerString();
 }

@@ -7,6 +7,6 @@ import org.springframework.web.servlet.view.RedirectView;
 
 @FeignClient(name = "pvc-caracol-energetico")
 public interface IEnergeticoClient {
-    @GetMapping("/api/v1/doc/energetico")
-    public RedirectView swagger();
+    @GetMapping("/api/v1/doc/energetico/string")
+    public String swaggerString();
 }
