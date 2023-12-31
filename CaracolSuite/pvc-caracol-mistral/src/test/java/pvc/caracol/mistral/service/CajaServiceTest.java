@@ -10,12 +10,13 @@ import org.mockito.MockitoAnnotations;
 import org.modelmapper.ModelMapper;
 import org.springframework.http.HttpStatus;
 import org.springframework.test.context.junit4.SpringRunner;
+import pvc.caracol.common.exceptions.FeignClientException;
 import pvc.caracol.common.exceptions.NotFoundException;
 import pvc.caracol.common.reponse.WebResponse;
 import pvc.caracol.mistral.enums.ModeloCaja;
 import pvc.caracol.mistral.model.Caja;
 import pvc.caracol.mistral.repository.interfaces.ICajaRepository;
-import pvc.caracol.mistral.service.support.NameCaseTest;
+import pvc.caracol.mistral.controller.NameCaseTest;
 
 import java.util.Collections;
 
@@ -55,12 +56,12 @@ class CajaServiceTest {
 
     @ParameterizedTest(name = "Buscar Cajas registradoras activas {0}: {1}")
     @MethodSource("pvc.caracol.mistral.service.support.TestSuport#getCajasActivasByCentroGestionTestCases")
-    void getCajasActivasByCentroGestion(HttpStatus expectedHttpStatus, String testName) throws NotFoundException {
+    void getCajasActivasByCentroGestion(HttpStatus expectedHttpStatus, String testName) throws NotFoundException, FeignClientException {
         // Arrange
-        if (testName.equals(NameCaseTest.CAJAS_OK)) {
+        if (testName.equals(NameCaseTest.CAJAS_OK_200)) {
             when(cajaRepository.getCajasActivas(centroGestion)).thenReturn(Collections.singletonList(caja));
         }
-        if (testName.equals(NameCaseTest.CAJAS_NOT_FOUND)) {
+        if (testName.equals(NameCaseTest.CAJAS_NOT_FOUND_404)) {
             when(cajaRepository.getCajasActivas(centroGestion)).thenReturn(Collections.emptyList());
             assertThrows(NotFoundException.class, () -> cajaService.getCajasActivasByCentroGestion(centroGestion));
             return;

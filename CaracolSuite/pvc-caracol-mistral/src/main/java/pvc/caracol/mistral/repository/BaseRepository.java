@@ -1,5 +1,6 @@
 package pvc.caracol.mistral.repository;
 
+import pvc.caracol.common.exceptions.FeignClientException;
 import pvc.caracol.common.exceptions.NotFoundException;
 import pvc.caracol.mistral.service.interfaces.IJdbcTemplateService;
 import org.springframework.jdbc.core.JdbcTemplate;
@@ -11,7 +12,7 @@ public abstract class BaseRepository {
         this.jdbcTemplateService = databaseConfigProvider;
     }
 
-    protected JdbcTemplate createJdbcTemplate(String centroGestion) throws NotFoundException {
+    protected JdbcTemplate createJdbcTemplate(String centroGestion) throws NotFoundException, FeignClientException {
         return jdbcTemplateService.getJdbcTemplate(centroGestion);
     }
 

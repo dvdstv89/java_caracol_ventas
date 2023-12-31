@@ -3,6 +3,7 @@ package pvc.caracol.mistral.service;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import pvc.caracol.common.exceptions.FeignClientException;
 import pvc.caracol.common.exceptions.NotFoundException;
 import pvc.caracol.common.reponse.WebResponse;
 import pvc.caracol.common.service.BaseService;
@@ -28,7 +29,7 @@ public class CajaService extends BaseService implements ICajaService {
     }
 
     @Override
-    public WebResponse getCajasActivasByCentroGestion(String centroGestion) throws NotFoundException {
+    public WebResponse getCajasActivasByCentroGestion(String centroGestion) throws NotFoundException, FeignClientException {
         List<Caja> cajas = repository.getCajasActivas(centroGestion);
         if (cajas.isEmpty()) {
             throw new NotFoundException(MessageText.CAJA_REGISTRADORAS_NOT_FOUND);

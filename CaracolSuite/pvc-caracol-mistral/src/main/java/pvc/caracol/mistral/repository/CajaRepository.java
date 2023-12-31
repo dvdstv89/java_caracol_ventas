@@ -1,5 +1,6 @@
 package pvc.caracol.mistral.repository;
 
+import pvc.caracol.common.exceptions.FeignClientException;
 import pvc.caracol.common.exceptions.NotFoundException;
 import pvc.caracol.mistral.mapper.CajaMapper;
 import pvc.caracol.mistral.model.Caja;
@@ -19,7 +20,7 @@ public class CajaRepository extends BaseRepository implements ICajaRepository {
     }
 
     @Override
-    public List<Caja> getCajasActivas(String centroGestion) throws NotFoundException {
+    public List<Caja> getCajasActivas(String centroGestion) throws NotFoundException, FeignClientException {
         StringBuilder query = new StringBuilder("SELECT * ")
                 .append("FROM TBL_CAJAS ")
                 .append("WHERE ACTIVA = 1");

@@ -17,7 +17,7 @@ import pvc.caracol.common.exceptions.NotFoundException;
 import pvc.caracol.common.utils.SwaggerUtil;
 
 @RestController
-//@Hidden
+@Hidden
 @Tag(name = "Swagger", description = "Tutorial management APIs")
 @RequestMapping("/api/v1/doc/mistral")
 public class SwaggerRedirectController {

@@ -2,6 +2,7 @@ package pvc.caracol.mistral.repository;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
+import pvc.caracol.common.exceptions.FeignClientException;
 import pvc.caracol.common.exceptions.NotFoundException;
 import pvc.caracol.mistral.http.input.CajaRegistradoraDto;
 import pvc.caracol.mistral.mapper.CintaAuditoraMapper;
@@ -20,7 +21,7 @@ public class CintaAuditoraRepository extends BaseRepository implements ICintaAud
         super(dataBaseInfoService);
     }
 
-    public List<CintaAuditora> getCintaAuditora(CajaRegistradoraDto cajaRegistradora) throws NotFoundException {
+    public List<CintaAuditora> getCintaAuditora(CajaRegistradoraDto cajaRegistradora) throws NotFoundException, FeignClientException {
         DateTimeFormatter dateFormat = DateTimeFormatter.ofPattern("yyyy-MM-dd");
 
         StringBuilder stringBuilder = new StringBuilder("SELECT * FROM TPV_CAJA_OPS ")

@@ -17,6 +17,7 @@ public class BaseRestResponseEntityExceptionHandler extends ResponseEntityExcept
     public ResponseEntity<WebResponse> handleException(Exception exception) {
         Map<Class<? extends Exception>, Function<Exception, ResponseEntity<WebResponse>>> exceptionHandlers = new HashMap<>();
         exceptionHandlers.put(NotFoundException.class, this::localNoFoundException);
+        exceptionHandlers.put(NotFoundCausedException.class, this::localNoFoundCausedException);
         exceptionHandlers.put(BadRequestException.class, this::localBadRequestException);
         exceptionHandlers.put(FeignClientException.class, this::localFeignException);
         return exceptionHandlers.getOrDefault(exception.getClass(), null).apply(exception);
@@ -24,6 +25,11 @@ public class BaseRestResponseEntityExceptionHandler extends ResponseEntityExcept
 
     public ResponseEntity<WebResponse> localNoFoundException(Exception ex) {
         NotFoundException exception = (NotFoundException) ex;
+        return new ResponseEntity<>(exception.getApiResponse(), exception.getApiResponse().getStatusCode());
+    }
+
+    public ResponseEntity<WebResponse> localNoFoundCausedException(Exception ex) {
+        NotFoundCausedException exception = (NotFoundCausedException) ex;
         return new ResponseEntity<>(exception.getApiResponse(), exception.getApiResponse().getStatusCode());
     }
 

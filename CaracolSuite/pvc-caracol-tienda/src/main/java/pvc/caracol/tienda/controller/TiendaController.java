@@ -4,6 +4,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import pvc.caracol.common.exceptions.FeignClientException;
+import pvc.caracol.common.exceptions.NotFoundException;
 import pvc.caracol.common.reponse.WebResponse;
 import pvc.caracol.tienda.http.output.CajaRegistradoraDto;
 import pvc.caracol.tienda.service.ICintaAuditoraService;
@@ -25,7 +26,7 @@ public class TiendaController {
     }
 
     @GetMapping("cajas-activas/{code}")
-    public ResponseEntity<WebResponse> getCajasActivas(@PathVariable String code) {
+    public ResponseEntity<WebResponse> getCajasActivas(@PathVariable String code) throws FeignClientException, NotFoundException {
         return ResponseEntity.ok(tiendaService.findCajasActivasByCodeCentroGestion(code));
     }
 

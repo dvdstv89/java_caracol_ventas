@@ -2,6 +2,7 @@ package pvc.caracol.common.messages;
 
 public class MessageText {
     public static final String SWAGGER_NOT_FOUND = "No se encontró una instancia para el microservicio %s";
+    public static final String FEINGN_CLIENT_EXCEPTION_SERVICE_UNAVAILABLE = "El balanceador de carga no contiene una instancia para el servicio %s";
 
     public static final String DRONE_CARGO_WEIGHT_EXCEEDED = "The maximum load weight of the drone %sgr was exceeded. Load weight to transport of %sgr";
     public static final String DRONE_CHANGE_STATE_TO_LOADING_WITH_BATTERY_LOW = "The drone SN:%s has the battery status low %.2f%%";

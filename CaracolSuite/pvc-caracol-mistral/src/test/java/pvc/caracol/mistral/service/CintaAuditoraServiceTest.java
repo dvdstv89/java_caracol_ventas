@@ -10,12 +10,14 @@ import org.mockito.MockitoAnnotations;
 import org.modelmapper.ModelMapper;
 import org.springframework.http.HttpStatus;
 import org.springframework.test.context.junit4.SpringRunner;
+import pvc.caracol.common.exceptions.FeignClientException;
+import pvc.caracol.common.exceptions.NotFoundCausedException;
 import pvc.caracol.common.exceptions.NotFoundException;
 import pvc.caracol.common.reponse.WebResponse;
 import pvc.caracol.mistral.http.input.CajaRegistradoraDto;
 import pvc.caracol.mistral.model.CintaAuditora;
 import pvc.caracol.mistral.repository.interfaces.ICintaAuditoraRepository;
-import pvc.caracol.mistral.service.support.NameCaseTest;
+import pvc.caracol.mistral.controller.NameCaseTest;
 
 import java.time.LocalDate;
 import java.util.Collections;
@@ -52,15 +54,15 @@ class CintaAuditoraServiceTest {
 
     @ParameterizedTest(name = "Buscar Cintas Auditoras {0}: {1}")
     @MethodSource("pvc.caracol.mistral.service.support.TestSuport#getCintasAuditorasTestCases")
-    void getCintaAuditora(HttpStatus expectedHttpStatus, String testName) throws NotFoundException {
+    void getCintaAuditora(HttpStatus expectedHttpStatus, String testName) throws NotFoundException, FeignClientException, NotFoundCausedException {
         // Arrange
-        if (testName.equals(NameCaseTest.CINTA_AUDITORA_OK)) {
+        if (testName.equals(NameCaseTest.CINTA_AUDITORA_OK_200)) {
             when(cintaAuditoraRepository.getCintaAuditora(cajaRegistradoraDto)).thenReturn(Collections.singletonList(cintaAuditora));
-        } else if (testName.equals(NameCaseTest.CINTA_AUDITORA_NOT_FOUND)) {
+        } else if (testName.equals(NameCaseTest.CINTA_AUDITORA_NOT_FOUND_404)) {
             when(cintaAuditoraRepository.getCintaAuditora(cajaRegistradoraDto)).thenReturn(Collections.emptyList());
             assertThrows(NotFoundException.class, () -> cintaAuditoraService.getCintaAuditora(cajaRegistradoraDto));
             return;
-        } else if (testName.equals(NameCaseTest.CINTA_AUDITORAS_OBSOLETA)) {
+        } else if (testName.equals(NameCaseTest.CINTA_AUDITORAS_OBSOLETA_412)) {
             cajaRegistradoraDto.setFechaInicio(LocalDate.of(2020, 1, 1));
             assertThrows(NotFoundException.class, () -> cintaAuditoraService.getCintaAuditora(cajaRegistradoraDto));
             return;

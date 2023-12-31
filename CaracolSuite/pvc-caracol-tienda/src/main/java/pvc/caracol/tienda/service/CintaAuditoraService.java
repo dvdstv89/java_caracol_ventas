@@ -1,12 +1,12 @@
 package pvc.caracol.tienda.service;
 
-import feign.FeignException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import pvc.caracol.common.exceptions.FeignClientException;
+import pvc.caracol.common.exceptions.NotFoundException;
 import pvc.caracol.common.reponse.WebResponse;
 import pvc.caracol.common.service.BaseService;
-import pvc.caracol.tienda.client.ICinadlClient;
+import pvc.caracol.tienda.client.ICinadClient;
 import pvc.caracol.tienda.client.IMistralClient;
 import pvc.caracol.tienda.http.CintaAuditoraDto;
 import pvc.caracol.tienda.http.input.CintaAuditoraProcesadaDto;
@@ -20,22 +20,18 @@ import java.util.stream.Collectors;
 public class CintaAuditoraService extends BaseService implements ICintaAuditoraService {
     //todo usar servicio base
     private final IMistralClient mistralClient;
-    private final ICinadlClient cinadlClient;
+    private final ICinadClient cinadClient;
 
     @Autowired
-    public CintaAuditoraService(ICinadlClient cinadlClient, IMistralClient mistralClient) {
-        this.cinadlClient = cinadlClient;
+    public CintaAuditoraService(ICinadClient cinadClient, IMistralClient mistralClient) {
+        this.cinadClient = cinadClient;
         this.mistralClient = mistralClient;
     }
 
     @Override
-    public WebResponse getCintasAuditorasByCaja(CajaRegistradoraDto cajaRegistradoraDto) throws IOException, FeignClientException {
-        try {
-            List<CintaAuditoraDto> cintasAuditoras = mistralClient.getCintasAuditoras(cajaRegistradoraDto);
-            return procesarCintasAuditoras(cintasAuditoras);
-        } catch (FeignException feignException) {
-            throw new FeignClientException(feignException);
-        }
+    public WebResponse getCintasAuditorasByCaja(CajaRegistradoraDto cajaRegistradoraDto) throws IOException, NotFoundException, FeignClientException{
+        List<CintaAuditoraDto> cintasAuditoras = mistralClient.getCintasAuditoras(cajaRegistradoraDto);
+        return procesarCintasAuditoras(cintasAuditoras);
     }
 
     @Override
@@ -54,6 +50,6 @@ public class CintaAuditoraService extends BaseService implements ICintaAuditoraS
     }
 
     private CintaAuditoraProcesadaDto procesarCinta(CintaAuditoraDto cintaAuditoraDto) throws IOException {
-        return cinadlClient.analizarCintaAuditora(cintaAuditoraDto);
+        return cinadClient.analizarCintaAuditora(cintaAuditoraDto);
     }
 }

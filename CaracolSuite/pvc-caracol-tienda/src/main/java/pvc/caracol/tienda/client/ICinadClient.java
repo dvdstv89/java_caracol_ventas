@@ -8,7 +8,7 @@ import pvc.caracol.tienda.http.input.CintaAuditoraProcesadaDto;
 import java.io.IOException;
 
 @FeignClient(name = "pvc-caracol-cinad")
-public interface ICinadlClient {
+public interface ICinadClient {
     @PostMapping("/api/v1/cinad/analizar-cinta")
     CintaAuditoraProcesadaDto analizarCintaAuditora(CintaAuditoraDto cintaAuditoraDto) throws IOException;
 }

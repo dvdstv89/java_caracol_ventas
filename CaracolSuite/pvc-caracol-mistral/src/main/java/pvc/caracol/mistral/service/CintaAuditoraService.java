@@ -2,7 +2,10 @@ package pvc.caracol.mistral.service;
 
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
+import pvc.caracol.common.exceptions.FeignClientException;
+import pvc.caracol.common.exceptions.NotFoundCausedException;
 import pvc.caracol.common.exceptions.NotFoundException;
 import pvc.caracol.common.reponse.WebResponse;
 import pvc.caracol.common.service.BaseService;
@@ -28,10 +31,10 @@ public class CintaAuditoraService extends BaseService implements ICintaAuditoraS
         this.modelMapper = modelMapper;
     }
 
-    public WebResponse getCintaAuditora(CajaRegistradoraDto cajaRegistradora) throws NotFoundException {
+    public WebResponse getCintaAuditora(CajaRegistradoraDto cajaRegistradora) throws NotFoundException, FeignClientException, NotFoundCausedException {
 
         if (cajaRegistradora.getFechaInicio().isBefore(SystemMicroserviceMistralApplication.fechaMinimaBuscarCintas)) {
-            throw new NotFoundException(MessageText.CINTA_AUDITORA_OBSOLETA);
+            throw new NotFoundCausedException(HttpStatus.PRECONDITION_FAILED, MessageText.CINTA_AUDITORA_OBSOLETA);
         }
 
         List<CintaAuditora> cintaAuditoras = cintaAuditoraRepository.getCintaAuditora(cajaRegistradora);
