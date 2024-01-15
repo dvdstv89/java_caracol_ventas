@@ -5,8 +5,9 @@ import lombok.Data;
 @Data
 public class CajaDto {
     private String idCaja;
+    private String codigoAlmacen;
+    private Integer idCentroGestion;
     private String codigoRed;
-    private String codigoCentroGestion;
     private String descripcion;
     private String codigoComercial;
     private boolean mlc;

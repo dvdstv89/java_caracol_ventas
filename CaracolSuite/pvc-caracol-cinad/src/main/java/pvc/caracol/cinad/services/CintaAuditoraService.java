@@ -9,9 +9,13 @@ import pvc.caracol.cinad.analizador.sintactico.IParser;
 import pvc.caracol.cinad.analizador.sintactico.Parser;
 import pvc.caracol.cinad.analizador.sintactico.models.VentaProducto;
 import pvc.caracol.cinad.dtos.*;
-import pvc.caracol.cinad.http.CintaAuditoraDto;
-import pvc.caracol.cinad.models.*;
-import pvc.caracol.common.reponse.WebResponse;
+import pvc.caracol.cinad.mapper.CajeroMapper;
+import pvc.caracol.cinad.mapper.ProductoMapper;
+import pvc.caracol.cinad.models.Cajero;
+import pvc.caracol.cinad.models.CintaAuditoraElectronica;
+import pvc.caracol.cinad.models.DiaOperacion;
+import pvc.caracol.cinad.models.FicheroCintaAuditora;
+import pvc.caracol.common.reponse.ApiWebResponse;
 import pvc.caracol.common.service.BaseService;
 
 import java.time.LocalDateTime;
@@ -29,17 +33,18 @@ public class CintaAuditoraService extends BaseService implements ICintaAuditoraS
         this.modelMapper = modelMapper;
     }
 
-    public WebResponse analizarCintaAuditora(CintaAuditoraDto cintaAuditoraDto) throws Exception {
-        FicheroCintaAuditora ficheroCintaAuditora = ficheroService.decodificarFichero(cintaAuditoraDto.getFichero());
+    @Override
+    public ApiWebResponse analizarCintaAuditora(byte[] fichero) throws Exception {
+        FicheroCintaAuditora ficheroCintaAuditora = ficheroService.decodificarFichero(fichero);
         ILexer lexer = new Lexer(ficheroCintaAuditora.getSourceStream());
         IParser parser = new Parser(lexer);
         CintaAuditoraElectronica cintaAuditoraElectronica = parser.parse();
-        CintaAuditoraProcesadaDto cintaAuditoraProcesadaDto = converToCintaAuditoraDto(cintaAuditoraDto, ficheroCintaAuditora, cintaAuditoraElectronica);
+        CintaAuditoraProcesadaDto cintaAuditoraProcesadaDto = converToCintaAuditoraDto(ficheroCintaAuditora, cintaAuditoraElectronica);
         response.addOkResponse200(cintaAuditoraProcesadaDto);
         return response;
     }
 
-    private CintaAuditoraProcesadaDto converToCintaAuditoraDto(CintaAuditoraDto cintaAuditoraDto, FicheroCintaAuditora ficheroCintaAuditora, CintaAuditoraElectronica cintaAuditoraElectronica) {
+    private CintaAuditoraProcesadaDto converToCintaAuditoraDto(FicheroCintaAuditora ficheroCintaAuditora, CintaAuditoraElectronica cintaAuditoraElectronica) {
         CintaAuditoraProcesadaDto cintaAuditoraProcesadaDto = CintaAuditoraProcesadaDto
                 .builder()
                 .name(ficheroCintaAuditora.getName())
@@ -51,13 +56,10 @@ public class CintaAuditoraService extends BaseService implements ICintaAuditoraS
                 .nombrePuntoVenta(cintaAuditoraElectronica.getNombrePuntoVenta())
                 .fechaHaladoVenta(cintaAuditoraElectronica.getFechaHaladoVenta())
                 .fechaAnalisis(LocalDateTime.now())
-                .idCaja(cintaAuditoraDto.getIdCaja())
-                .codigoAlmacen(cintaAuditoraDto.getCodigoAlmacen())
-                .codigoRed(cintaAuditoraDto.getCodigoRed())
                 .diaOperacions(new ArrayList<>())
                 .build();
 
-        for (DiaOperacion dia: cintaAuditoraElectronica.getDiaOperacions()){
+        for (DiaOperacion dia : cintaAuditoraElectronica.getDiaOperacions()) {
             DiaOperacionDto diaOperacionDto = new DiaOperacionDto();
             diaOperacionDto.setCodigoDiaOperacion(dia.getCodigoDiaOperacion());
             diaOperacionDto.setFecha(dia.getFecha());
@@ -78,12 +80,12 @@ public class CintaAuditoraService extends BaseService implements ICintaAuditoraS
             diaOperacionDto.setCajeros(cajeros);
 
 
-            List<ProductoDto> productos =  dia.getProductos().stream()
+            List<ProductoDto> productos = dia.getProductos().stream()
                     .map(this::mapProducto)
                     .toList();
             diaOperacionDto.setProductos(productos);
 
-            List<ProductoDto> devoluciones =  dia.getDevoluciones().stream()
+            List<ProductoDto> devoluciones = dia.getDevoluciones().stream()
                     .map(this::mapProducto)
                     .toList();
             diaOperacionDto.setDevoluciones(devoluciones);
@@ -92,35 +94,20 @@ public class CintaAuditoraService extends BaseService implements ICintaAuditoraS
         return cintaAuditoraProcesadaDto;
     }
 
-    private CajeroDto mapCajero(Cajero cajero){
+    private CajeroDto mapCajero(Cajero cajero) {
         List<PagoDto> ventas = cajero.getVentas().stream()
                 .map(e -> modelMapper.map(e, PagoDto.class))
                 .toList();
-        return CajeroDto
-                .builder()
-                .ventas(ventas)
-                .codigo(cajero.getCodigo())
-                .haceFuncionSupervisor(cajero.isHaceFuncionSupervisor())
-                .cantidadCorrecciones(cajero.getCantidadCorrecciones())
-                .cantidadTVOID(cajero.getCantidadTVOID())
-                .cantidadRFUND(cajero.getCantidadRFUND())
-                .cantidadClientes(cajero.getCantidadClientes())
-                .cantidadReportes(cajero.getCantidadReportes())
-                .propina(cajero.getPropina())
-                .cantidadProductos(cajero.getCantidadProductos())
-                .cantidadInsumos(cajero.getCantidadInsumos())
-                .build();
+        List<PagoDto> propinas = cajero.getPropinas().stream()
+                .map(e -> modelMapper.map(e, PagoDto.class))
+                .toList();
+        CajeroDto cajeroDto = new CajeroMapper().map(cajero);
+        cajeroDto.setVentas(ventas);
+        cajeroDto.setPropinas(propinas);
+        return cajeroDto;
     }
 
-    private ProductoDto mapProducto(VentaProducto ventaProducto){
-        return ProductoDto
-                .builder()
-                .code(ventaProducto.getProducto().getCode())
-                .name(ventaProducto.getProducto().getName())
-                .precioUnitario(ventaProducto.getProducto().getPrecioUnitario())
-                .isInsumo(ventaProducto.getProducto().getIsInsumo())
-                .cantidad(ventaProducto.getCantidad())
-                .saldo(ventaProducto.getSaldo())
-                .build();
+    private ProductoDto mapProducto(VentaProducto ventaProducto) {
+        return new ProductoMapper().map(ventaProducto);
     }
 }

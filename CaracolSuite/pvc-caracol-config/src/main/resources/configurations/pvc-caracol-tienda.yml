@@ -16,7 +16,7 @@ spring:
     show-sql: true
     hibernate:
       dialect: org.hibernate.dialect.SQLServer2022Dialect
-      ddl-auto: create-drop
+      ddl-auto: update
   liquibase:
     change-log: classpath:db.changelog.xml
 springdoc:

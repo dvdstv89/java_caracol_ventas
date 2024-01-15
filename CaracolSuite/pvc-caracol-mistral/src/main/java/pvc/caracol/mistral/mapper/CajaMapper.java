@@ -8,10 +8,17 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 
 public class CajaMapper implements RowMapper<Caja> {
+    private Integer idCentroGestion;
+
+    public CajaMapper(Integer idCentroGestion){
+        this.idCentroGestion = idCentroGestion;
+    }
+
     @Override
     public Caja mapRow(ResultSet rs, int rowNum) throws SQLException {
         return Caja.builder()
-                .id(rs.getString("CODCAJA"))
+                .idCaja(rs.getString("CODCAJA"))
+                .codigoAlmacen(rs.getString("CODALMACEN"))
                 .codigoRed(rs.getString("CODRED"))
                 .centroCosto(rs.getString("CCOSTO"))
                 .numeroCaja(rs.getString("ID"))
@@ -19,6 +26,7 @@ public class CajaMapper implements RowMapper<Caja> {
                 .codigoComercial(rs.getString("CODCOMER"))
                 .mlc(rs.getBoolean("MLC"))
                 .modelo(ModeloCaja.fromSerie(rs.getString("TIPOCAJA")))
+                .idCentroGestion(idCentroGestion)
                 .build();
     }
 }

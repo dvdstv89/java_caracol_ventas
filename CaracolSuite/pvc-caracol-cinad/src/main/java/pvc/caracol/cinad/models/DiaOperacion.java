@@ -105,8 +105,8 @@ public class DiaOperacion {
     }
 
     private void procesarPropina(OperacionPropina operacion) {
-        ProcesarOperacionUtil.addPago(propinas, operacion.getPago().clone());
-        getCajero(operacion.getCajero()).incresePropina(operacion.getPago());
+        operacion.getPropinas().forEach(propina -> ProcesarOperacionUtil.addPago(propinas, propina));
+        getCajero(operacion.getCajero()).addPropina(operacion.getPropinas());
     }
 
     private Cajero getCajero(String code) {
@@ -118,6 +118,7 @@ public class DiaOperacion {
             cajero = Cajero.builder()
                     .codigo(code)
                     .ventas(new ArrayList<>())
+                    .propinas(new ArrayList<>())
                     .build();
             cajeros.add(cajero);
         }

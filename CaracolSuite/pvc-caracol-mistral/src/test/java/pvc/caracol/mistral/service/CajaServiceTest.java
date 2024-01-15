@@ -12,11 +12,11 @@ import org.springframework.http.HttpStatus;
 import org.springframework.test.context.junit4.SpringRunner;
 import pvc.caracol.common.exceptions.FeignClientException;
 import pvc.caracol.common.exceptions.NotFoundException;
-import pvc.caracol.common.reponse.WebResponse;
+import pvc.caracol.common.reponse.ApiWebResponse;
 import pvc.caracol.mistral.enums.ModeloCaja;
+import pvc.caracol.mistral.messages.NameCaseTest;
 import pvc.caracol.mistral.model.Caja;
 import pvc.caracol.mistral.repository.interfaces.ICajaRepository;
-import pvc.caracol.mistral.controller.NameCaseTest;
 
 import java.util.Collections;
 
@@ -27,7 +27,7 @@ import static org.mockito.Mockito.when;
 @RunWith(SpringRunner.class)
 class CajaServiceTest {
     @Mock
-    protected WebResponse response;
+    protected ApiWebResponse response;
     @Mock
     private ModelMapper modelMapper;
     @Mock
@@ -36,14 +36,15 @@ class CajaServiceTest {
     @InjectMocks
     private CajaService cajaService;
 
-    private final String centroGestion = "1";
+    private final Integer idCentroGestion = 1;
     private Caja caja;
 
     @BeforeEach
     void setUp() {
         MockitoAnnotations.openMocks(this);
         caja = Caja.builder()
-                .id("1")
+                .idCaja("1")
+                .codigoAlmacen("1")
                 .codigoRed("1")
                 .centroCosto("1")
                 .numeroCaja("1")
@@ -59,16 +60,19 @@ class CajaServiceTest {
     void getCajasActivasByCentroGestion(HttpStatus expectedHttpStatus, String testName) throws NotFoundException, FeignClientException {
         // Arrange
         if (testName.equals(NameCaseTest.CAJAS_OK_200)) {
-            when(cajaRepository.getCajasActivas(centroGestion)).thenReturn(Collections.singletonList(caja));
-        }
-        if (testName.equals(NameCaseTest.CAJAS_NOT_FOUND_404)) {
-            when(cajaRepository.getCajasActivas(centroGestion)).thenReturn(Collections.emptyList());
-            assertThrows(NotFoundException.class, () -> cajaService.getCajasActivasByCentroGestion(centroGestion));
+            when(cajaRepository.getCajasActivasByCentroGestion(idCentroGestion)).thenReturn(Collections.singletonList(caja));
+        } else if (testName.equals(NameCaseTest.CAJAS_NOT_FOUND_404)) {
+            when(cajaRepository.getCajasActivasByCentroGestion(idCentroGestion)).thenReturn(Collections.emptyList());
+            assertThrows(NotFoundException.class, () -> cajaService.getCajasActivasByCentroGestion(idCentroGestion));
+            return;
+        } else if (testName.equals(NameCaseTest.GENERIC_INSTANCIA_NOT_FOUND_503)) {
+            when(cajaRepository.getCajasActivasByCentroGestion(idCentroGestion)).thenThrow(FeignClientException.class);
+            assertThrows(FeignClientException.class, () -> cajaRepository.getCajasActivasByCentroGestion(idCentroGestion));
             return;
         }
 
         //Act
-        WebResponse result = cajaService.getCajasActivasByCentroGestion(centroGestion);
+        ApiWebResponse result = cajaService.getCajasActivasByCentroGestion(idCentroGestion);
         //Assert
         assertEquals(expectedHttpStatus, result.getStatusCode());
     }

@@ -8,13 +8,13 @@ import java.util.concurrent.ConcurrentHashMap;
 
 @Configuration
 public class JdbcTemplateSingleton {
-    private Map<String, JdbcTemplate> jdbcTemplateMap  = new ConcurrentHashMap<>();
+    private Map<Integer, JdbcTemplate> jdbcTemplateMap = new ConcurrentHashMap<>();
 
-    public void addJdbcTemplate(String centroGestion, JdbcTemplate jdbcTemplate) {
-        jdbcTemplateMap .put(centroGestion, jdbcTemplate);
+    public void addJdbcTemplate(Integer idCentroGestion, JdbcTemplate jdbcTemplate) {
+        jdbcTemplateMap.put(idCentroGestion, jdbcTemplate);
     }
 
-    public JdbcTemplate  getJdbcTemplate(String centroGestion) {
-        return jdbcTemplateMap .get(centroGestion);
+    public JdbcTemplate getJdbcTemplate(Integer idCentroGestion) {
+        return jdbcTemplateMap.get(idCentroGestion);
     }
 }

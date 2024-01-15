@@ -1,15 +1,15 @@
 package pvc.caracol.common.service;
 
-import pvc.caracol.common.reponse.WebResponse;
+import pvc.caracol.common.reponse.ApiWebResponse;
 
 import java.util.List;
 
 public abstract class BaseService {
-    protected WebResponse response;
+    protected ApiWebResponse response;
 
     public BaseService()
     {
-        response = new WebResponse();
+        response = new ApiWebResponse();
     }
 
     protected boolean isNullOrEmpty(Object object) {

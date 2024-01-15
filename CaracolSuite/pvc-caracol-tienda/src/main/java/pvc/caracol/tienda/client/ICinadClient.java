@@ -9,6 +9,6 @@ import java.io.IOException;
 
 @FeignClient(name = "pvc-caracol-cinad")
 public interface ICinadClient {
-    @PostMapping("/api/v1/cinad/analizar-cinta")
-    CintaAuditoraProcesadaDto analizarCintaAuditora(CintaAuditoraDto cintaAuditoraDto) throws IOException;
+    @PostMapping("/api/v1/cinad/analizar-pk")
+    CintaAuditoraProcesadaDto analizarCintaAuditora(byte[] fichero);
 }

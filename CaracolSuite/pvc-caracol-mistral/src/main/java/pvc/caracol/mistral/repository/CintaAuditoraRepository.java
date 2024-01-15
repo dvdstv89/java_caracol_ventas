@@ -41,7 +41,7 @@ public class CintaAuditoraRepository extends BaseRepository implements ICintaAud
 
         String query = buildQueryWithParameters(stringBuilder.toString(), queryParams);
 
-        return createJdbcTemplate(cajaRegistradora.getCodigoCentroGestion())
+        return createJdbcTemplate(cajaRegistradora.getIdCentroGestion())
                 .query(query, new CintaAuditoraMapper());
     }
 }

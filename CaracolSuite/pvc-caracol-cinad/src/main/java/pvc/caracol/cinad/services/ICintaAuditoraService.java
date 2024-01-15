@@ -1,8 +1,7 @@
 package pvc.caracol.cinad.services;
 
-import pvc.caracol.cinad.http.CintaAuditoraDto;
-import pvc.caracol.common.reponse.WebResponse;
+import pvc.caracol.common.reponse.ApiWebResponse;
 
 public interface ICintaAuditoraService {
-    WebResponse analizarCintaAuditora(CintaAuditoraDto cintaAuditoraDto) throws Exception;
+    ApiWebResponse analizarCintaAuditora(byte[] fichero) throws Exception;
 }

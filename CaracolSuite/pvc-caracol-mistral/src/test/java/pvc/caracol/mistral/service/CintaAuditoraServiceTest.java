@@ -13,11 +13,11 @@ import org.springframework.test.context.junit4.SpringRunner;
 import pvc.caracol.common.exceptions.FeignClientException;
 import pvc.caracol.common.exceptions.NotFoundCausedException;
 import pvc.caracol.common.exceptions.NotFoundException;
-import pvc.caracol.common.reponse.WebResponse;
+import pvc.caracol.common.reponse.ApiWebResponse;
 import pvc.caracol.mistral.http.input.CajaRegistradoraDto;
+import pvc.caracol.mistral.messages.NameCaseTest;
 import pvc.caracol.mistral.model.CintaAuditora;
 import pvc.caracol.mistral.repository.interfaces.ICintaAuditoraRepository;
-import pvc.caracol.mistral.controller.NameCaseTest;
 
 import java.time.LocalDate;
 import java.util.Collections;
@@ -29,7 +29,7 @@ import static org.mockito.Mockito.when;
 @RunWith(SpringRunner.class)
 class CintaAuditoraServiceTest {
     @Mock
-    protected WebResponse response;
+    protected ApiWebResponse response;
     @Mock
     private ModelMapper modelMapper;
     @Mock
@@ -44,9 +44,9 @@ class CintaAuditoraServiceTest {
     void setUp() {
         MockitoAnnotations.openMocks(this);
         cajaRegistradoraDto = CajaRegistradoraDto.builder()
-                .idCaja(13)
+                .idCaja("13")
                 .codigoRed("R01")
-                .codigoCentroGestion("23205")
+                .idCentroGestion(1)
                 .fechaInicio(LocalDate.of(2022, 1, 1))
                 .fechaFin(LocalDate.of(2022, 1, 3))
                 .build();
@@ -64,12 +64,16 @@ class CintaAuditoraServiceTest {
             return;
         } else if (testName.equals(NameCaseTest.CINTA_AUDITORAS_OBSOLETA_412)) {
             cajaRegistradoraDto.setFechaInicio(LocalDate.of(2020, 1, 1));
-            assertThrows(NotFoundException.class, () -> cintaAuditoraService.getCintaAuditora(cajaRegistradoraDto));
+            assertThrows(NotFoundCausedException.class, () -> cintaAuditoraService.getCintaAuditora(cajaRegistradoraDto));
+            return;
+        } else if (testName.equals(NameCaseTest.GENERIC_INSTANCIA_NOT_FOUND_503)) {
+            when(cintaAuditoraRepository.getCintaAuditora(cajaRegistradoraDto)).thenThrow(FeignClientException.class);
+            assertThrows(FeignClientException.class, () -> cintaAuditoraService.getCintaAuditora(cajaRegistradoraDto));
             return;
         }
 
         //Act
-        WebResponse result = cintaAuditoraService.getCintaAuditora(cajaRegistradoraDto);
+        ApiWebResponse result = cintaAuditoraService.getCintaAuditora(cajaRegistradoraDto);
         //Assert
         assertEquals(expectedHttpStatus, result.getStatusCode());
     }

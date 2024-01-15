@@ -12,15 +12,12 @@ import pvc.caracol.common.controller.BaseController;
 import pvc.caracol.common.exceptions.FeignClientException;
 import pvc.caracol.common.exceptions.NotFoundCausedException;
 import pvc.caracol.common.exceptions.NotFoundException;
-import pvc.caracol.common.reponse.WebResponse;
-import pvc.caracol.mistral.dtos.CajaDto;
+import pvc.caracol.common.reponse.ApiWebResponse;
 import pvc.caracol.mistral.http.input.CajaRegistradoraDto;
-import pvc.caracol.mistral.http.output.CintaAuditoraDto;
 import pvc.caracol.mistral.messages.MessageText;
+import pvc.caracol.mistral.messages.NameCaseTest;
 import pvc.caracol.mistral.service.interfaces.ICajaService;
 import pvc.caracol.mistral.service.interfaces.ICintaAuditoraService;
-
-import java.util.List;
 
 @RestController
 @Tag(name = "Mistral", description = "Consultas a la base de datos de mistral")
@@ -46,10 +43,26 @@ public class MistralController extends BaseController {
             @ApiResponse(responseCode = "500", description = NameCaseTest.GENERIC_ERROR_500),
             @ApiResponse(responseCode = "503", description = NameCaseTest.GENERIC_INSTANCIA_NOT_FOUND_503)
     })
-    @PostMapping("cajas-activas-centro-gestion/{centroGestion}")
-    public ResponseEntity<List<CajaDto>> getCajasActivasByCentroGestion(@PathVariable String centroGestion) throws NotFoundException, FeignClientException {
-        WebResponse response = cajaService.getCajasActivasByCentroGestion(centroGestion);
-        return handleApiResponseToObject(response, MessageText.ENDPOINT_CAJAS_REGISTRADORAS_ACTIVAS_BY_CENTRO_GESTION);
+    @PostMapping("cajas-activas-centro-gestion/{idCentroGestion}")
+    public ResponseEntity<ApiWebResponse> getCajasActivasByIdCentroGestion(@PathVariable Integer idCentroGestion) throws NotFoundException, FeignClientException {
+        ApiWebResponse response = cajaService.getCajasActivasByCentroGestion(idCentroGestion);
+        return handleApiResponse(response, MessageText.ENDPOINT_CAJAS_REGISTRADORAS_ACTIVAS_BY_CENTRO_GESTION);
+    }
+
+    @Operation(
+            summary = "Obtener las cajas registradoras",
+            description = "Busca las cajas registradoras activas pertenecientes a un centro de gestion dado. Se obtiene el string de conexion del centro de gestion y luego" +
+                    " se buscan todas sus cajas registradoras con estado activo = true.")
+    @ApiResponses({
+            @ApiResponse(responseCode = "200", description = NameCaseTest.CAJAS_OK_200),
+            @ApiResponse(responseCode = "404", description = NameCaseTest.CAJAS_NOT_FOUND_404),
+            @ApiResponse(responseCode = "500", description = NameCaseTest.GENERIC_ERROR_500),
+            @ApiResponse(responseCode = "503", description = NameCaseTest.GENERIC_INSTANCIA_NOT_FOUND_503)
+    })
+    @PostMapping("cajas-activas-tienda/{codigoTienda}")
+    public ResponseEntity<ApiWebResponse> getCajasActivasByTienda(@PathVariable String codigoTienda) throws NotFoundException, FeignClientException {
+        ApiWebResponse response = cajaService.getCajasActivasByTienda(codigoTienda);
+        return handleApiResponse(response, MessageText.ENDPOINT_CAJAS_REGISTRADORAS_ACTIVAS_BY_TIENDA);
     }
 
     @Operation(
@@ -63,8 +76,8 @@ public class MistralController extends BaseController {
             @ApiResponse(responseCode = "503", description = NameCaseTest.GENERIC_INSTANCIA_NOT_FOUND_503)
     })
     @PostMapping("cintas-auditoras")
-    public ResponseEntity<List<CintaAuditoraDto>> getCintasAuditoras(@RequestBody CajaRegistradoraDto cajaRegistradora) throws NotFoundException, FeignClientException, NotFoundCausedException {
-        WebResponse response = cintaAuditoraService.getCintaAuditora(cajaRegistradora);
-        return handleApiResponseToObjectList(response, MessageText.ENDPOINT_CINTAS_AUDITORAS_BY_CAJA_REGGISTERADORA);
+    public ResponseEntity<ApiWebResponse> getCintasAuditoras(@RequestBody CajaRegistradoraDto cajaRegistradoraDto) throws NotFoundException, FeignClientException, NotFoundCausedException {
+        ApiWebResponse response = cintaAuditoraService.getCintaAuditora(cajaRegistradoraDto);
+        return handleApiResponse(response, MessageText.ENDPOINT_CINTAS_AUDITORAS_BY_CAJA_REGGISTERADORA);
     }
 }

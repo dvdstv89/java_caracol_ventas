@@ -31,9 +31,6 @@ public abstract class OperationConProducto extends OperationWhitFooter {
         double pagosEfectuados = 0.0;
         for(Pago cash: pagos){
             double dinero = cash.getPagado();
-           /* if(cash.getFormaPago().equals(FormaPago.CUP)){
-                dinero /=25;
-            }*/
             pagosEfectuados+=dinero;
         }
         pagosEfectuados = Math.round(pagosEfectuados * 100.0) / 100.0;
@@ -44,7 +41,6 @@ public abstract class OperationConProducto extends OperationWhitFooter {
         }
         return result;
     }
-
 
     protected OperationConProducto(TipoOperacion tipoOperacion, List<Token> tokens) {
         super(tipoOperacion, tokens);

@@ -6,6 +6,7 @@ import java.time.LocalDate;
 
 @Data
 public class CintaAuditoraDto {
+    private String idTienda;
     private String idCaja;
     private String codigoAlmacen;
     private String codigoRed;

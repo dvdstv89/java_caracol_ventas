@@ -1,12 +1,14 @@
 package pvc.caracol.mistral.service;
 
 import feign.FeignException;
+import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.jdbc.DataSourceBuilder;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.stereotype.Service;
 import pvc.caracol.common.exceptions.FeignClientException;
 import pvc.caracol.common.exceptions.NotFoundException;
+import pvc.caracol.common.reponse.ApiWebResponse;
 import pvc.caracol.mistral.client.IEmpresarialClient;
 import pvc.caracol.mistral.configs.JdbcTemplateSingleton;
 import pvc.caracol.mistral.messages.MessageText;
@@ -19,30 +21,33 @@ import javax.sql.DataSource;
 public class JDBCTemplateService implements IJdbcTemplateService {
     private JdbcTemplateSingleton databaseInfoSingleton;
     private final IEmpresarialClient empresarialClient;
+    private final ModelMapper modelMapper;
 
     @Autowired
-    public JDBCTemplateService(JdbcTemplateSingleton databaseInfoSingleton, IEmpresarialClient empresarialClient) {
+    public JDBCTemplateService(JdbcTemplateSingleton databaseInfoSingleton, IEmpresarialClient empresarialClient, ModelMapper modelMapper) {
         this.databaseInfoSingleton = databaseInfoSingleton;
         this.empresarialClient = empresarialClient;
+        this.modelMapper = modelMapper;
     }
 
     @Override
-    public JdbcTemplate getJdbcTemplate(String centroGestion) throws NotFoundException, FeignClientException {
-        JdbcTemplate jdbcTemplate = databaseInfoSingleton.getJdbcTemplate(centroGestion);
+    public JdbcTemplate getJdbcTemplate(Integer idCentroGestion) throws NotFoundException, FeignClientException {
+        JdbcTemplate jdbcTemplate = databaseInfoSingleton.getJdbcTemplate(idCentroGestion);
         if (jdbcTemplate == null) {
-            jdbcTemplate = createAndCacheJdbcTemplate(centroGestion);
+            jdbcTemplate = createAndCacheJdbcTemplate(idCentroGestion);
         }
         return jdbcTemplate;
     }
 
-    private JdbcTemplate createAndCacheJdbcTemplate(String centroGestion) throws NotFoundException, FeignClientException {
+    private JdbcTemplate createAndCacheJdbcTemplate(Integer idCentroGestion) throws NotFoundException, FeignClientException {
         try {
-            DataBaseInfo databaseInfo = empresarialClient.findBaseDatosMistralByCodeCentroGestion(centroGestion);
+            ApiWebResponse apiWebResponse = empresarialClient.findBaseDatosMistralByCodeCentroGestion(idCentroGestion);
 
-            if (databaseInfo == null) {
-                throw new NotFoundException(String.format(MessageText.DATABASE_MISTRAL_NOT_FOUND, centroGestion));
+            if (apiWebResponse == null) {
+                throw new NotFoundException(String.format(MessageText.DATABASE_MISTRAL_NOT_FOUND, idCentroGestion));
             }
 
+            DataBaseInfo databaseInfo = modelMapper.map(apiWebResponse.getResult(), DataBaseInfo.class);
             String databaseUrl = String.format("jdbc:sqlserver://%s:%d;databaseName=%s;trustServerCertificate=true",
                     databaseInfo.getHost(), databaseInfo.getPort(), databaseInfo.getName());
 
@@ -55,10 +60,9 @@ public class JDBCTemplateService implements IJdbcTemplateService {
 
             JdbcTemplate jdbcTemplate = new JdbcTemplate(dataSource);
 
-            databaseInfoSingleton.addJdbcTemplate(centroGestion, jdbcTemplate);
+            databaseInfoSingleton.addJdbcTemplate(idCentroGestion, jdbcTemplate);
             return jdbcTemplate;
-        }
-        catch (FeignException feignException) {
+        } catch (FeignException feignException) {
             throw new FeignClientException(feignException);
         }
     }

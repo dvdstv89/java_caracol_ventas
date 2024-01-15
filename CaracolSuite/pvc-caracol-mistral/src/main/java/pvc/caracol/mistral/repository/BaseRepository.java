@@ -12,8 +12,8 @@ public abstract class BaseRepository {
         this.jdbcTemplateService = databaseConfigProvider;
     }
 
-    protected JdbcTemplate createJdbcTemplate(String centroGestion) throws NotFoundException, FeignClientException {
-        return jdbcTemplateService.getJdbcTemplate(centroGestion);
+    protected JdbcTemplate createJdbcTemplate(Integer idCentroGestion) throws NotFoundException, FeignClientException {
+        return jdbcTemplateService.getJdbcTemplate(idCentroGestion);
     }
 
     protected String buildQueryWithParameters(String baseQuery, Object[] parameters) {

@@ -7,6 +7,7 @@ import java.util.List;
 
 @Data
 public class CintaAuditoraProcesadaDto {
+    private String idTienda;
     private String idCaja;
     private String codigoAlmacen;
     private String codigoRed;

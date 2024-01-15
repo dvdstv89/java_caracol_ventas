@@ -1,10 +1,10 @@
 package pvc.caracol.tienda.swagger;
 
 import io.swagger.v3.oas.models.OpenAPI;
-import io.swagger.v3.oas.models.info.Contact;
 import io.swagger.v3.oas.models.info.Info;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import pvc.caracol.common.utils.SwaggerUtil;
 
 @Configuration
 public class SwaggerConfig {
@@ -14,12 +14,10 @@ public class SwaggerConfig {
 
 
         Info apiInfo = new Info()
-                .title("Empresarial")
+                .title("Tienda Services")
                 .version("1.0 BETA")
-                .description("La descripcion")
-                .contact(new Contact()
-                        .name("David Estévez Díaz")
-                        .email("david.estevez@veste.caracol.cu"));
+                .description("Microservicion dedicado a manejar información sobre las tiendas.")
+                .contact(SwaggerUtil.customContact());
 
         return new OpenAPI()
                 .info(apiInfo);

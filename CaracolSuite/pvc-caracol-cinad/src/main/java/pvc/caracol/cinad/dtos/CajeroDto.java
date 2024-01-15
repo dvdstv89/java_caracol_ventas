@@ -15,9 +15,9 @@ public class CajeroDto {
     private int cantidadRFUND;
     private int cantidadClientes;
     private int cantidadReportes;
-    private double propina;
     private double cantidadProductos;
     private double cantidadInsumos;
     private List<PagoDto> ventas;
+    private List<PagoDto> propinas;
 }
 

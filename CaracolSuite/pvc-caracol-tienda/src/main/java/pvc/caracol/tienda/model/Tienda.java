@@ -1,10 +1,15 @@
 package pvc.caracol.tienda.model;
 
-import java.util.List;
+import jakarta.persistence.Id;
+import jakarta.persistence.MappedSuperclass;
+import lombok.Getter;
+import lombok.Setter;
 
+
+@Getter
+@Setter
+@MappedSuperclass
 public abstract class Tienda {
-    private int idCentroGestion;
-   List<Venta> ventas;
-    private boolean isMlc;
-
+    @Id
+    private String code;
 }

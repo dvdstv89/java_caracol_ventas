@@ -1,0 +1,14 @@
+<databaseChangeLog
+        xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog
+   http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-4.5.xsd">
+
+    <changeSet author="david" id="202401012004">
+        <insert tableName="tienda_fisica">
+            <column name="centro_costo" value="Sucursal Comercial Caracol Este Vedado"/>
+            <column name="code" value="282"/>
+        </insert>
+
+    </changeSet>
+</databaseChangeLog>

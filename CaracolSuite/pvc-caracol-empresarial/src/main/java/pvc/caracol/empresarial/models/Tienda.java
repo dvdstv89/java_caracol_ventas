@@ -9,9 +9,6 @@ import pvc.caracol.empresarial.enums.TipoTienda;
 @Table(name = "tienda")
 public class Tienda {
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Integer id;
-
     @Column(unique = true, nullable = false)
     private String code;
 
@@ -25,4 +22,15 @@ public class Tienda {
     @ManyToOne
     @JoinColumn(name = "id_centro_gestion", nullable = false)
     private CentroGestion centroGestion;
+
+    @Column(nullable = false)
+    private String centroCosto;
+
+    private Integer ordenComercial;
+
+    private boolean isMlc;
+
+    private boolean abierta;
+
+    private boolean active;
 }

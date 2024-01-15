@@ -1,14 +1,16 @@
 package pvc.caracol.mistral.client;
 
 
-import pvc.caracol.mistral.model.DataBaseInfo;
 import org.springframework.cloud.openfeign.FeignClient;
-import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
+import pvc.caracol.common.reponse.ApiWebResponse;
 
 @FeignClient(name = "pvc-caracol-empresarial")
 public interface IEmpresarialClient {
-    @GetMapping("/api/v1/empresarial/database-mistral/{code}")
-    DataBaseInfo findBaseDatosMistralByCodeCentroGestion(@PathVariable String code);
+    @PostMapping("/api/v1/centro-gestion/database-mistral/{idCentroGestion}")
+    ApiWebResponse findBaseDatosMistralByCodeCentroGestion(@PathVariable Integer idCentroGestion);
 
+    @PostMapping("/api/v1/centro-gestion/tienda/{idTienda}")
+    ApiWebResponse findTiendaByIdTienda(@PathVariable String idTienda);
 }

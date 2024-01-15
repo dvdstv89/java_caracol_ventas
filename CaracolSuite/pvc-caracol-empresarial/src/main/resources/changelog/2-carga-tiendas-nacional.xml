@@ -1,0 +1,176 @@
+<databaseChangeLog
+        xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog
+   http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-4.5.xsd">
+
+    <changeSet author="david" id="202401082010">
+        <insert tableName="tienda">
+            <column name="name" value="Mixta Nacional"/>
+            <column name="code" value="208209"/>
+            <column name="orden_comercial" value="2"/>
+            <column name="centro_costo" value="208"/>
+            <column name="tipo_tienda" value="FISICA"/>
+            <column name="is_mlc" value="true"/>
+            <column name="active" value="true"/>
+            <column name="abierta" value="true"/>
+            <column name="id_centro_gestion" valueComputed="(SELECT id FROM centro_gestion WHERE code = '23208')"/>
+        </insert>
+
+        <insert tableName="tienda">
+            <column name="name" value="Licorera Nacional"/>
+            <column name="code" value="208210"/>
+            <column name="orden_comercial" value="4"/>
+            <column name="centro_costo" value="208"/>
+            <column name="tipo_tienda" value="FISICA"/>
+            <column name="is_mlc" value="true"/>
+            <column name="active" value="true"/>
+            <column name="abierta" value="true"/>
+            <column name="id_centro_gestion" valueComputed="(SELECT id FROM centro_gestion WHERE code = '23208')"/>
+        </insert>
+
+        <insert tableName="tienda">
+            <column name="name" value="Casa Habanos Nacional"/>
+            <column name="code" value="208217"/>
+            <column name="orden_comercial" value="3"/>
+            <column name="centro_costo" value="208"/>
+            <column name="tipo_tienda" value="FISICA"/>
+            <column name="is_mlc" value="true"/>
+            <column name="active" value="true"/>
+            <column name="abierta" value="true"/>
+            <column name="id_centro_gestion" valueComputed="(SELECT id FROM centro_gestion WHERE code = '23208')"/>
+        </insert>
+
+        <insert tableName="tienda">
+            <column name="name" value="Joyería Gema Nacional"/>
+            <column name="code" value="208211"/>
+            <column name="orden_comercial" value="5"/>
+            <column name="centro_costo" value="208"/>
+            <column name="tipo_tienda" value="FISICA"/>
+            <column name="is_mlc" value="true"/>
+            <column name="active" value="true"/>
+            <column name="abierta" value="true"/>
+            <column name="id_centro_gestion" valueComputed="(SELECT id FROM centro_gestion WHERE code = '23208')"/>
+        </insert>
+
+        <insert tableName="tienda">
+            <column name="name" value="Perfumería Cubana Nacional"/>
+            <column name="code" value="208205"/>
+            <column name="orden_comercial" value="14"/>
+            <column name="centro_costo" value="208"/>
+            <column name="tipo_tienda" value="FISICA"/>
+            <column name="is_mlc" value="true"/>
+            <column name="active" value="true"/>
+            <column name="abierta" value="true"/>
+            <column name="id_centro_gestion" valueComputed="(SELECT id FROM centro_gestion WHERE code = '23208')"/>
+        </insert>
+
+        <insert tableName="tienda">
+            <column name="name" value="Verano Habana Nacional"/>
+            <column name="code" value="208106"/>
+            <column name="orden_comercial" value="101"/>
+            <column name="centro_costo" value="208"/>
+            <column name="tipo_tienda" value="FISICA"/>
+            <column name="is_mlc" value="false"/>
+            <column name="active" value="true"/>
+            <column name="abierta" value="true"/>
+            <column name="id_centro_gestion" valueComputed="(SELECT id FROM centro_gestion WHERE code = '23208')"/>
+        </insert>
+
+        <insert tableName="tienda">
+            <column name="name" value="Tienda Mixta Capri Nacional"/>
+            <column name="code" value="207120"/>
+            <column name="orden_comercial" value="9"/>
+            <column name="centro_costo" value="207"/>
+            <column name="tipo_tienda" value="FISICA"/>
+            <column name="is_mlc" value="true"/>
+            <column name="active" value="true"/>
+            <column name="abierta" value="true"/>
+            <column name="id_centro_gestion" valueComputed="(SELECT id FROM centro_gestion WHERE code = '23208')"/>
+        </insert>
+
+        <insert tableName="tienda">
+            <column name="name" value="Tienda Perfumería Capri Nacional"/>
+            <column name="code" value="207221"/>
+            <column name="orden_comercial" value="16"/>
+            <column name="centro_costo" value="207"/>
+            <column name="tipo_tienda" value="FISICA"/>
+            <column name="is_mlc" value="true"/>
+            <column name="active" value="true"/>
+            <column name="abierta" value="true"/>
+            <column name="id_centro_gestion" valueComputed="(SELECT id FROM centro_gestion WHERE code = '23208')"/>
+        </insert>
+
+        <insert tableName="tienda">
+            <column name="name" value="Tienda Licorera Capri Nacional"/>
+            <column name="code" value="207122"/>
+            <column name="orden_comercial" value="10"/>
+            <column name="centro_costo" value="207"/>
+            <column name="tipo_tienda" value="FISICA"/>
+            <column name="is_mlc" value="true"/>
+            <column name="active" value="true"/>
+            <column name="abierta" value="true"/>
+            <column name="id_centro_gestion" valueComputed="(SELECT id FROM centro_gestion WHERE code = '23208')"/>
+        </insert>
+
+        <insert tableName="tienda">
+            <column name="name" value="Bella Habana"/>
+            <column name="code" value="218130"/>
+            <column name="orden_comercial" value="102"/>
+            <column name="centro_costo" value="218"/>
+            <column name="tipo_tienda" value="FISICA"/>
+            <column name="is_mlc" value="false"/>
+            <column name="active" value="true"/>
+            <column name="abierta" value="true"/>
+            <column name="id_centro_gestion" valueComputed="(SELECT id FROM centro_gestion WHERE code = '23208')"/>
+        </insert>
+
+        <insert tableName="tienda">
+            <column name="name" value="Tienda Tulipán Nacional"/>
+            <column name="code" value="200131"/>
+            <column name="orden_comercial" value="31"/>
+            <column name="centro_costo" value="200"/>
+            <column name="tipo_tienda" value="FISICA"/>
+            <column name="is_mlc" value="true"/>
+            <column name="active" value="true"/>
+            <column name="abierta" value="true"/>
+            <column name="id_centro_gestion" valueComputed="(SELECT id FROM centro_gestion WHERE code = '23208')"/>
+        </insert>
+
+        <insert tableName="tienda">
+            <column name="name" value="Perfumería Vedado Nacional"/>
+            <column name="code" value="209240"/>
+            <column name="orden_comercial" value="16"/>
+            <column name="centro_costo" value="209"/>
+            <column name="tipo_tienda" value="FISICA"/>
+            <column name="is_mlc" value="true"/>
+            <column name="active" value="true"/>
+            <column name="abierta" value="true"/>
+            <column name="id_centro_gestion" valueComputed="(SELECT id FROM centro_gestion WHERE code = '23208')"/>
+        </insert>
+
+        <insert tableName="tienda">
+            <column name="name" value="Turística 500 Recuerdos"/>
+            <column name="code" value="210132"/>
+            <column name="orden_comercial" value="52"/>
+            <column name="centro_costo" value="210"/>
+            <column name="tipo_tienda" value="FISICA"/>
+            <column name="is_mlc" value="true"/>
+            <column name="active" value="true"/>
+            <column name="abierta" value="true"/>
+            <column name="id_centro_gestion" valueComputed="(SELECT id FROM centro_gestion WHERE code = '23208')"/>
+        </insert>
+
+        <insert tableName="tienda">
+            <column name="name" value="Oportunidades Nacional"/>
+            <column name="code" value="211133"/>
+            <column name="orden_comercial" value="103"/>
+            <column name="centro_costo" value="211"/>
+            <column name="tipo_tienda" value="FISICA"/>
+            <column name="is_mlc" value="false"/>
+            <column name="active" value="true"/>
+            <column name="abierta" value="true"/>
+            <column name="id_centro_gestion" valueComputed="(SELECT id FROM centro_gestion WHERE code = '23208')"/>
+        </insert>
+    </changeSet>
+</databaseChangeLog>

@@ -5,5 +5,5 @@ import pvc.caracol.common.exceptions.FeignClientException;
 import pvc.caracol.common.exceptions.NotFoundException;
 
 public interface IJdbcTemplateService {
-    JdbcTemplate getJdbcTemplate(String centroGestion) throws NotFoundException, FeignClientException;
+    JdbcTemplate getJdbcTemplate(Integer idCentroGestion) throws NotFoundException, FeignClientException;
 }
