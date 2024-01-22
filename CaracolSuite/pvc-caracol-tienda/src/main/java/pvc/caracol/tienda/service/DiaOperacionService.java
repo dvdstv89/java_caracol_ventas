@@ -27,7 +27,7 @@ public class DiaOperacionService extends BaseService implements IDiaOperacionSer
         DiaOperacion diaOperacion = buscarDiaOperacionByFechaAndCaja(diaOperacionDto.getFecha(), cajaRegistradora);
         return (diaOperacion == null) ?
                 createAndSaveNewDiaOperacion(diaOperacionDto, cajaRegistradora, cintaAuditora)
-                : null;
+                : diaOperacion;
     }
 
     @Override
@@ -37,7 +37,7 @@ public class DiaOperacionService extends BaseService implements IDiaOperacionSer
 
     private DiaOperacion createAndSaveNewDiaOperacion(DiaOperacionDto diaOperacionDto, CajaRegistradora cajaRegistradora, CintaAuditora cintaAuditora) {
         DiaOperacion diaOperacion = new DiaOperacion();
-        diaOperacion.setFecha(DateUtil.convertirToDate(diaOperacionDto.getFecha()));
+        diaOperacion.setFecha(DateUtil.convertirLocalDateToDate(diaOperacionDto.getFecha()));
         diaOperacion.setCajaRegistradora(cajaRegistradora);
         diaOperacion.setCintaAuditora(cintaAuditora);
         return diaOperacionRepository.save(diaOperacion);

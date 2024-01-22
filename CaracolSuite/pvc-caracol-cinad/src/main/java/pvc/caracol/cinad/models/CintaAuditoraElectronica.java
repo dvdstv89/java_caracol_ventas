@@ -62,7 +62,7 @@ public class CintaAuditoraElectronica {
     }
 
     public void depurarDiasOperaciones() {
-        if (diaOperacions.get(diaOperacions.size() - 1).getCantidadOperaciones() < 3) {
+        if (!diaOperacions.isEmpty() && diaOperacions.get(diaOperacions.size() - 1).getCantidadOperaciones() < 3) {
             diaOperacions.remove(diaOperacions.size() - 1);
         }
     }

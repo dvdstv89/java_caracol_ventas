@@ -3,13 +3,13 @@ package pvc.caracol.tienda.mapper;
 import pvc.caracol.common.mapper.ObjectMapper;
 import pvc.caracol.tienda.dtos.CajaDto;
 import pvc.caracol.tienda.http.output.CajaRegistradoraDto;
-import pvc.caracol.tienda.http.output.TiendaDto;
+import pvc.caracol.tienda.http.input.ProcesarCintasTiendasDto;
 
 public class CajaMapper implements ObjectMapper<CajaRegistradoraDto, CajaDto> {
 
-    private final TiendaDto tiendaDto;
+    private final ProcesarCintasTiendasDto tiendaDto;
 
-    public CajaMapper(TiendaDto tiendaDto) {
+    public CajaMapper(ProcesarCintasTiendasDto tiendaDto) {
         this.tiendaDto = tiendaDto;
     }
 

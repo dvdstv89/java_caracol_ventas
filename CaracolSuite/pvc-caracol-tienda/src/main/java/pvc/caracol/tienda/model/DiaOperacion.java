@@ -27,7 +27,7 @@ public class DiaOperacion {
     @JoinColumn(name = "caja_registradora_id", nullable = false)
     private CajaRegistradora cajaRegistradora;
 
-    @OneToMany(mappedBy = "diaOperacion")
+    @OneToMany(mappedBy = "diaOperacion", fetch = FetchType.EAGER)
     private List<TransaccionPago> transaccionesPagos;
 
     @OneToMany(mappedBy = "diaOperacion")

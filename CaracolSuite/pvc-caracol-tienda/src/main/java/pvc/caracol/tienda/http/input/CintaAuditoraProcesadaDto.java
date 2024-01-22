@@ -2,6 +2,7 @@ package pvc.caracol.tienda.http.input;
 
 import lombok.Data;
 
+import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.List;
 
@@ -20,5 +21,7 @@ public class CintaAuditoraProcesadaDto {
     private String nombrePuntoVenta;
     private LocalDateTime fechaHaladoVenta;
     private LocalDateTime fechaAnalisis;
+    private LocalDate fechaCreacionMistal;
+    private LocalDate fechaProcesadoMistal;
     private List<DiaOperacionDto> diaOperacions;
 }

@@ -12,7 +12,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 import pvc.caracol.common.exceptions.FeignClientException;
 import pvc.caracol.common.reponse.ApiWebResponse;
-import pvc.caracol.tienda.http.output.TiendaDto;
+import pvc.caracol.tienda.http.input.ProcesarCintasTiendasDto;
 import pvc.caracol.tienda.messages.NameCaseTest;
 import pvc.caracol.tienda.service.interfaces.ICintaAuditoraService;
 
@@ -29,7 +29,7 @@ public class TiendaController {
     }
 
     @Operation(
-            summary = "Obtener las cintas auditoras, analizarlas y guardar los metadatos",
+            summary = "Procesa las cintas auditoras desde Mistral y guarda el resultado. USED FOR PERIODIC TASK",
             description = "Busca las cintas auditoras de las caja registradoras  de una tienda especifica en un periodo de tiempo.")
     @ApiResponses({
             @ApiResponse(responseCode = "200", description = NameCaseTest.CINTA_AUDITORA_OK_200),
@@ -39,7 +39,7 @@ public class TiendaController {
             @ApiResponse(responseCode = "503", description = NameCaseTest.GENERIC_INSTANCIA_NOT_FOUND_503)
     })
     @PostMapping("analizar-cintas-auditoras-by-tienda")
-    public ResponseEntity<ApiWebResponse> analizarCintasAuditorasByTienda(@RequestBody TiendaDto tiendaDto) throws FeignClientException {
-        return ResponseEntity.ok(cintaAuditoraService.getCintasAuditorasByTiendaProcesadas(tiendaDto));
+    public ResponseEntity<ApiWebResponse> analizarCintasAuditorasByTienda(@RequestBody ProcesarCintasTiendasDto tiendaDto) throws FeignClientException {
+        return ResponseEntity.ok(cintaAuditoraService.procesarCientasAuditorasByTienda(tiendaDto));
     }
 }

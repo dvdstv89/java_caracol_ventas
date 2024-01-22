@@ -15,8 +15,8 @@ import pvc.caracol.tienda.dtos.CajaDto;
 import pvc.caracol.tienda.http.CintaAuditoraDto;
 import pvc.caracol.tienda.http.input.CintaAuditoraProcesadaDto;
 import pvc.caracol.tienda.http.input.DiaOperacionDto;
+import pvc.caracol.tienda.http.input.ProcesarCintasTiendasDto;
 import pvc.caracol.tienda.http.output.CajaRegistradoraDto;
-import pvc.caracol.tienda.http.output.TiendaDto;
 import pvc.caracol.tienda.mapper.CajaMapper;
 import pvc.caracol.tienda.model.CajaRegistradora;
 import pvc.caracol.tienda.model.CintaAuditora;
@@ -38,10 +38,8 @@ public class CintaAuditoraService extends BaseService implements ICintaAuditoraS
     private final ICajaRegistradoraService cajaRegistradoraService;
     private final IDiaOperacionService diaOperacionService;
     private final ICintaAuditoraRepository cintaAuditoraRepository;
-
     private final IProductoDiaOPeracionCajaService productoDiaOPeracionCajaService;
     private final ITransaccionPagoService transaccionPagoService;
-
     private final ICajeroService cajeroService;
     private ISingletonList<CintaAuditora> cintaAuditoraISingleton;
 
@@ -64,18 +62,17 @@ public class CintaAuditoraService extends BaseService implements ICintaAuditoraS
     }
 
     @Override
-    public ApiWebResponse getCintasAuditorasByTiendaProcesadas(TiendaDto tiendaDto) throws FeignClientException {
-        List<CajaDto> cajaDtos = cajaRegistradoraService.getCintasAuditorasByIdTienda(tiendaDto.getCodigoTienda());
+    public ApiWebResponse procesarCientasAuditorasByTienda(ProcesarCintasTiendasDto procesarCintasTiendasDto) throws FeignClientException {
+        List<CajaDto> cajaDtos = cajaRegistradoraService.getCintasAuditorasByIdTienda(procesarCintasTiendasDto.getCodigoTienda());
 
         List<CintaAuditoraProcesadaDto> processedCintas = new ArrayList<>();
-        CajaMapper cajaMapper = new CajaMapper(tiendaDto);
+        CajaMapper cajaMapper = new CajaMapper(procesarCintasTiendasDto);
 
         for (CajaDto caja : cajaDtos) {
             CajaRegistradoraDto cajaRegistradoraDto = cajaMapper.map(caja);
             List<CintaAuditoraDto> cintaAuditoraDtoList = getCintasAuditorasByCaja(cajaRegistradoraDto);
             if (cintaAuditoraDtoList != null && !cintaAuditoraDtoList.isEmpty()) {
-                List<CintaAuditoraProcesadaDto> cintaAuditoraProcesadaDtos = procesarCintasAuditoras(cintaAuditoraDtoList);
-                processedCintas.addAll(cintaAuditoraProcesadaDtos);
+                processedCintas.addAll(procesarCintasAuditoras(cintaAuditoraDtoList));
             }
         }
         response.addOkResponse200(processedCintas);
@@ -101,10 +98,10 @@ public class CintaAuditoraService extends BaseService implements ICintaAuditoraS
     private List<CintaAuditoraProcesadaDto> procesarCintasAuditoras(List<CintaAuditoraDto> cintaAuditoraDtos) throws FeignClientException {
         List<CintaAuditoraProcesadaDto> processedCintas = new ArrayList<>();
         for (CintaAuditoraDto cintaAuditoraDto : cintaAuditoraDtos) {
-            CintaAuditoraProcesadaDto processedCinta = cintaFueAnalizada(cintaAuditoraDto)
-                    ? getAnalisisCinta(cintaAuditoraDto)
-                    : procesarCinta(cintaAuditoraDto);
-            processedCintas.add(processedCinta);
+            if (!cintaFueAnalizada(cintaAuditoraDto)) {
+                CintaAuditoraProcesadaDto cintaAuditoraProcesadaDto =procesarCinta(cintaAuditoraDto);
+                if(cintaAuditoraProcesadaDto!= null) processedCintas.add(procesarCinta(cintaAuditoraDto));
+            }
         }
         return processedCintas;
     }
@@ -116,54 +113,52 @@ public class CintaAuditoraService extends BaseService implements ICintaAuditoraS
             cintaAuditoraProcesadaDto.setCodigoAlmacen(cintaAuditoraDto.getCodigoAlmacen());
             cintaAuditoraProcesadaDto.setCodigoRed(cintaAuditoraDto.getCodigoRed());
             cintaAuditoraProcesadaDto.setIdTienda(cintaAuditoraDto.getIdTienda());
-            guardarAnalisis(cintaAuditoraProcesadaDto);
-            return cintaAuditoraProcesadaDto;
+            cintaAuditoraProcesadaDto.setFechaCreacionMistal(cintaAuditoraDto.getFechaCreacion());
+            cintaAuditoraProcesadaDto.setFechaProcesadoMistal(cintaAuditoraDto.getFechaProcesado());
+            return guardarAnalisis(cintaAuditoraProcesadaDto)
+                    ? cintaAuditoraProcesadaDto
+                    : null;
         } catch (FeignException feignException) {
             throw new FeignClientException(feignException);
         }
     }
 
-    private void guardarAnalisis(CintaAuditoraProcesadaDto cintaAuditoraProcesadas) {
-        TiendaFisica tienda = tiendaService.buscarTiendaFisica(cintaAuditoraProcesadas.getIdTienda());
-        CajaRegistradora cajaRegistradora = cajaRegistradoraService.buscarCajaRegistradora(tienda, cintaAuditoraProcesadas);
-        CintaAuditora cintaAuditora = buscarCintaAuditora(cajaRegistradora, cintaAuditoraProcesadas);
-        for (DiaOperacionDto diaOperacionDto : cintaAuditoraProcesadas.getDiaOperacions()) {
+    private boolean guardarAnalisis(CintaAuditoraProcesadaDto cintaAuditoraProcesada) {
+        TiendaFisica tienda = tiendaService.buscarTiendaFisica(cintaAuditoraProcesada.getIdTienda());
+        CajaRegistradora cajaRegistradora = cajaRegistradoraService.buscarCajaRegistradora(tienda, cintaAuditoraProcesada);
+        CintaAuditora cintaAuditora = buscarCintaAuditora(cajaRegistradora, cintaAuditoraProcesada);
+        boolean result = false;
+        for (DiaOperacionDto diaOperacionDto : cintaAuditoraProcesada.getDiaOperacions()) {
             DiaOperacion diaOperacion = diaOperacionService.buscarDiaOperacion(diaOperacionDto, cajaRegistradora, cintaAuditora);
-            if (diaOperacion == null) {
-                //todo si dia de operacion es null significa que el dia ya existe
-                //todo puede ser falso
-            } else {
-                //todo guardar cinta
+            if (diaOperacion.getTransaccionesPagos() == null || diaOperacion.getTransaccionesPagos().isEmpty()) {
                 productoDiaOPeracionCajaService.procesarProductosDiaOperacion(diaOperacionDto.getProductos(), diaOperacion);
                 transaccionPagoService.procesarTransaccionPago(diaOperacionDto.getFormasPago(), diaOperacion);
                 transaccionPagoService.procesarPropinas(diaOperacionDto.getPropinas(), diaOperacion);
                 cajeroService.procesarCajerosDiaOperacion(diaOperacionDto.getCajeros(), diaOperacion, cajaRegistradora);
+                result = true;
             }
         }
-        return;
+        return result;
     }
 
     private boolean cintaFueAnalizada(CintaAuditoraDto cintaAuditoraDto) {
-        return false;
-        //todo buscar cinta
-    }
-
-    private CintaAuditoraProcesadaDto getAnalisisCinta(CintaAuditoraDto cintaAuditoraDto) {
-        return new CintaAuditoraProcesadaDto();
-        //todo buscar analisis de cinta
+        return cintaAuditoraRepository.existsCintaAuditora(cintaAuditoraDto.getIdTienda(),
+                cintaAuditoraDto.getIdCaja(), cintaAuditoraDto.getCodigoAlmacen(), cintaAuditoraDto.getCodigoRed(),
+                DateUtil.convertirLocalDateToDate(cintaAuditoraDto.getFechaCreacion()),
+                DateUtil.convertirLocalDateToDate(cintaAuditoraDto.getFechaProcesado()));
     }
 
     private CintaAuditora buscarCintaAuditora(CajaRegistradora cajaRegistradora, CintaAuditoraProcesadaDto cintaAuditoraProcesadas) {
         CintaAuditora cintaAuditora = cintaAuditoraISingleton.findFirst(
-                c -> c.getFechaCreacion().equals(DateUtil.convertirToDateTime(cintaAuditoraProcesadas.getFechaCreacion()))
-                        && c.getFechaHaladoVenta().equals(DateUtil.convertirToDateTime(cintaAuditoraProcesadas.getFechaHaladoVenta()))
+                c -> c.getFechaCreacion().equals(DateUtil.convertirLocalDateTimeToTimestamp(cintaAuditoraProcesadas.getFechaCreacion()))
+                        && c.getFechaHaladoVenta().equals(DateUtil.convertirLocalDateTimeToTimestamp(cintaAuditoraProcesadas.getFechaHaladoVenta()))
                         && c.getCajaRegistradora().getId().equals(cajaRegistradora.getId())
         );
 
         if (cintaAuditora == null) {
             cintaAuditora = cintaAuditoraRepository.findByFechaCreacionAndFechaHaladoVentaAndCajaRegistradora(
-                            DateUtil.convertirToDateTime(cintaAuditoraProcesadas.getFechaCreacion()),
-                            DateUtil.convertirToDateTime(cintaAuditoraProcesadas.getFechaHaladoVenta()),
+                            DateUtil.convertirLocalDateTimeToTimestamp(cintaAuditoraProcesadas.getFechaCreacion()),
+                            DateUtil.convertirLocalDateTimeToTimestamp(cintaAuditoraProcesadas.getFechaHaladoVenta()),
                             cajaRegistradora)
                     .orElseGet(() -> createAndSaveNewCintaAuditora(cajaRegistradora, cintaAuditoraProcesadas));
             cintaAuditoraISingleton.add(cintaAuditora);
@@ -171,14 +166,16 @@ public class CintaAuditoraService extends BaseService implements ICintaAuditoraS
         return cintaAuditora;
     }
 
-    private CintaAuditora createAndSaveNewCintaAuditora(CajaRegistradora cajaRegistradora, CintaAuditoraProcesadaDto cintaAuditoraProcesadas) {
+    private CintaAuditora createAndSaveNewCintaAuditora(CajaRegistradora cajaRegistradora, CintaAuditoraProcesadaDto cintaAuditoraProcesada) {
         CintaAuditora cintaAuditora = new CintaAuditora();
-        cintaAuditora.setByteSize(cintaAuditoraProcesadas.getByteSize());
-        cintaAuditora.setCountLines(cintaAuditoraProcesadas.getCountLines());
-        cintaAuditora.setFechaAnalisis(DateUtil.convertirToDateTime(cintaAuditoraProcesadas.getFechaAnalisis()));
-        cintaAuditora.setFechaCreacion(DateUtil.convertirToDateTime(cintaAuditoraProcesadas.getFechaCreacion()));
-        cintaAuditora.setFechaHaladoVenta(DateUtil.convertirToDateTime(cintaAuditoraProcesadas.getFechaHaladoVenta()));
-        cintaAuditora.setPaperSize(cintaAuditoraProcesadas.getPaperSizeCentimetros());
+        cintaAuditora.setByteSize(cintaAuditoraProcesada.getByteSize());
+        cintaAuditora.setCountLines(cintaAuditoraProcesada.getCountLines());
+        cintaAuditora.setFechaAnalisis(DateUtil.convertirLocalDateTimeToTimestamp(cintaAuditoraProcesada.getFechaAnalisis()));
+        cintaAuditora.setFechaCreacion(DateUtil.convertirLocalDateTimeToTimestamp(cintaAuditoraProcesada.getFechaCreacion()));
+        cintaAuditora.setFechaHaladoVenta(DateUtil.convertirLocalDateTimeToTimestamp(cintaAuditoraProcesada.getFechaHaladoVenta()));
+        cintaAuditora.setPaperSize(cintaAuditoraProcesada.getPaperSizeCentimetros());
+        cintaAuditora.setFechaCreacionMistal(DateUtil.convertirLocalDateToDate(cintaAuditoraProcesada.getFechaCreacionMistal()));
+        cintaAuditora.setFechaProcesadoMistal(DateUtil.convertirLocalDateToDate(cintaAuditoraProcesada.getFechaProcesadoMistal()));
         cintaAuditora.setCajaRegistradora(cajaRegistradora);
         return cintaAuditoraRepository.save(cintaAuditora);
     }

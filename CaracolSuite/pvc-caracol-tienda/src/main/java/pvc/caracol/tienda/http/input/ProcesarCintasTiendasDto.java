@@ -1,11 +1,11 @@
-package pvc.caracol.tienda.http.output;
+package pvc.caracol.tienda.http.input;
 
 import lombok.Data;
 
 import java.time.LocalDate;
 
 @Data
-public class TiendaDto {
+public class ProcesarCintasTiendasDto {
     private String codigoTienda;
     private LocalDate fechaInicio;
     private LocalDate fechaFin;

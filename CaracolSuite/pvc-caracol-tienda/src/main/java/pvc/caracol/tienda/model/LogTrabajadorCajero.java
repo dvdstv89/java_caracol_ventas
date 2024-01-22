@@ -3,7 +3,6 @@ package pvc.caracol.tienda.model;
 import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.Setter;
-import pvc.caracol.tienda.enums.TipoLog;
 
 import java.sql.Date;
 
@@ -20,11 +19,18 @@ public class LogTrabajadorCajero {
     @JoinColumn(name = "trabajador_cajero_id")
     TrabajadorCajero trabajadorCajero;
 
+    //Fecha de inicio del periodo que ejerce como cajero
     @Column(nullable = false)
-    private Date fecha;
+    private Date fechaInicio;
+
+    //Fecha en fin del periodo que termina como cajero, si es null segnifica que esta vigente
+    private Date fechaFin;
 
     @Column(nullable = false)
     private String descripcion;
 
-    private TipoLog tipoLog;
+    //en este periodo estaba de vacaciones, franco, baja
+    private EstadoCajero estadoCajero;
+
+    //el estado del trabajador se cambia desde un endpoint especifico y se busca en todas las tiendas donde ejerce como cajero
 }

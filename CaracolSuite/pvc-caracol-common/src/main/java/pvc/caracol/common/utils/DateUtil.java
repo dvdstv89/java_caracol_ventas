@@ -12,15 +12,18 @@ public class DateUtil {
         return (date != null) ? Instant.ofEpochMilli(date.getTime()).atZone(ZoneId.systemDefault()).toLocalDate() : null;
     }
 
-    public static Date convertirToDate(LocalDateTime localDate) {
+    public static Date convertirLocalDateTimeToDate(LocalDateTime localDate) {
         return Date.valueOf(localDate.toLocalDate());
     }
 
-    public static Date convertirToDate(LocalDate localDate) {
+    public static Date convertirLocalDateToDate(LocalDate localDate) {
         return Date.valueOf(localDate);
     }
 
-    public static Timestamp convertirToDateTime(LocalDateTime localDate) {
+    public static Timestamp convertirLocalDateTimeToTimestamp(LocalDateTime localDate) {
         return Timestamp.valueOf(localDate);
+    }
+    public static Timestamp convertirLocalDateToTimestamp(LocalDate localDate) {
+        return Timestamp.valueOf(localDate.atStartOfDay());
     }
 }

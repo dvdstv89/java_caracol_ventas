@@ -5,6 +5,8 @@ import lombok.Getter;
 import lombok.Setter;
 
 import java.sql.Timestamp;
+import java.time.LocalDate;
+import java.util.Date;
 import java.util.List;
 
 @Entity
@@ -31,4 +33,6 @@ public class CintaAuditora {
     private Timestamp fechaCreacion;
     private Timestamp fechaHaladoVenta;
     private Timestamp fechaAnalisis;
+    private Date fechaCreacionMistal;
+    private Date fechaProcesadoMistal;
 }
